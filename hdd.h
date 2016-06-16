@@ -11,8 +11,8 @@
 
 typedef struct HARD_DISK
  {
-     long int taille;
-     BLOCK* tabBlock[];
+     unsigned int taille;
+     BLOCK* tabBlock[64000];
 
 
  }HARD_DISK;
