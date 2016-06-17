@@ -16,6 +16,11 @@ int main()
     unsigned int taille;
     taille=dd.taille;
 
+<<<<<<< HEAD
+=======
+    initBlockTab(dd,taille);
+    printf("Fichier du bloc 0 : %d",dd.tabBlock[0]->numero); // Segfault ici
+>>>>>>> ff10bbd4511bd9019575cf3b1309c7b5cc17df25
 
     // initBlockTab(dd,taille); // Fonction init tableau de blocs
 
