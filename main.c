@@ -17,7 +17,7 @@ int main()
     taille=dd.taille;
 
     initBlockTab(dd,taille);
-    printf("Fichier du bloc 0 : %d",dd.tabBlock[0]->numero);
+    printf("Fichier du bloc 0 : %d",dd.tabBlock[0]->numero); // Segfault ici
 
 
 
