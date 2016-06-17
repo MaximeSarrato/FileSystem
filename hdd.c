@@ -11,7 +11,7 @@ HARD_DISK initHDD(char* nomHDD, unsigned int tailleHDD)
     return nomHDD;
 
 }
-*/
+
 
 BLOCK* initBlockTab (HARD_DISK disk, unsigned int taille)
 {
@@ -32,3 +32,4 @@ BLOCK* initBlockTab (HARD_DISK disk, unsigned int taille)
 
     return *disk.tabBlock;
 }
+*/
