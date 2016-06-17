@@ -43,9 +43,12 @@ typedef struct INODE
 
 typedef struct FICHIER
 {
+    INODE inodeParent;
     INODE inode;
+    int repertoire; // 0 si c'est un fichier 1 si c'est un répertoire
     char* nom;
     int taille;
+    char* donnees[1024];
 
 } FICHIER;
 
