@@ -15,30 +15,12 @@ int main()
     dd.tabBlock[64000];   // Déclaration tableau de pointeurs sur BLOCK en fonction de la taille du DD
     unsigned int taille;
     taille=dd.taille;
-/*
 
-    BLOCK *monBloc;
-    monBloc = malloc(sizeof(BLOCK));
-    dd.tabBlock[63999]=monBloc;
-    monBloc->fichier=fic1;
-    monBloc->etat=1;
-    monBloc->numero=0;
+    initBlockTab(dd,taille);
+    printf("Fichier du bloc 0 : %d",dd.tabBlock[0]->numero);
 
 
-    printf("Taille du disque en octet = %d\n",dd.taille);
-    printf("Bloc numéro = %d\n",dd.tabBlock[63999]->numero);
-    printf("Fichier du bloc 1 : %s\n",monBloc->fichier.nom);
-    printf("Etat du bloc : %d",monBloc->etat);
-*/
 
-    for(i=0;i<taille;i++)
-    {
-        printf("i=%d\n",i);
-        BLOCK *monBloc;
-        monBloc = malloc(sizeof(BLOCK));
-        printf("test\n");
-        dd.tabBlock[i]=monBloc;
-    }
 
 
 /*
