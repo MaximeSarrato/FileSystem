@@ -17,19 +17,8 @@ typedef struct HARD_DISK
  }HARD_DISK;
 
 
-//HARD_DISK initHDD (char* nomHDD, unsigned int tailleHDD);
 HARD_DISK initBlockTab(unsigned int taille);
-
-
-
-
-
-
-
-
-
-
-
+void readDataBloc(HARD_DISK disk, unsigned int numBloc);
 
 
 

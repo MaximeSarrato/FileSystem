@@ -12,6 +12,9 @@ int main()
     unsigned int taille;
     taille=64000;
     fic1.nom="notes.txt";
+    fic1.inode.numero=5;
+    fic1.inode.premierBloc=6;
+    fic1.inode.dernierBloc=9;
 
     dd = initBlockTab(taille); // Fonction init tableau de blocs
 
@@ -21,11 +24,8 @@ int main()
     printf("Fichier du bloc : %s\n",dd.tabBlock[0].fichier.nom);
     printf("Etat du bloc : %d\n",dd.tabBlock[0].etat);
 
-//    for(i=0;i<1024;i++)
-//    {
-//        fic1.donnees[i]="Data";
-//        printf("Case %d %s\n",i,fic1.donnees[i]);
-//    }
+
+    readDataBloc(dd,0); // Fonction lecture d'un bloc de données du disque dd
 
 
 

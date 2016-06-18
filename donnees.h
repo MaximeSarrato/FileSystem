@@ -19,8 +19,6 @@ typedef struct REPERTOIRE
 } REPERTOIRE;
 
 
-
-
 /***************************************
  *
  * Structure de donnees des inodes
@@ -30,6 +28,7 @@ typedef struct REPERTOIRE
 
 typedef struct INODE
 {
+    int numero;
     int longueur;           // Taille du fichier en octets
     int premierBloc;        // Numéro du premier bloc
     int dernierBloc;        // Numéro du dernier bloc
@@ -91,12 +90,13 @@ typedef struct FICHIER
  * Définition d'une structure BLOCK
  *
  ***************************************/
-
+#define BLOC_SIZE 1024
  typedef struct BLOCK
  {
      FICHIER fichier;   // Fichier ou répertoire qu'il contient
      int numero;      // Numéro du bloc
      int etat;
+     char* donnees[BLOC_SIZE];
  }BLOCK;
 
 
