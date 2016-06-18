@@ -1,5 +1,6 @@
 #ifndef __HDD.H__
 #define __HDD.H__
+
 #include "donnees.h"
 
 
@@ -13,12 +14,13 @@ typedef struct HARD_DISK
  {
      unsigned int taille;
      BLOCK* tabBlock;
+     INODE* tabInode;
 
  }HARD_DISK;
 
 
 HARD_DISK initBlockTab(unsigned int taille);
-void readDataBloc(HARD_DISK disk, unsigned int numBloc);
+void readBlocData(HARD_DISK disk, unsigned int numBloc);
 
 
 

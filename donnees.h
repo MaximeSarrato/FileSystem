@@ -52,37 +52,18 @@ typedef struct FICHIER
 } FICHIER;
 
 
-/***************************************
- *
- * Définition du Super Bloc
- *
- ***************************************/
-
-
- #define SIGNATURE_SUPER_BLOCK      (0xBD43FF23)
-
- typedef struct SUPER_BLOCK
- {
-     int signature;         // Signature du FileSystem
-     int adresseRep;        // Adresse du 1er bloc allouable
- }SUPER_BLOCK;
-
-
-
  /***************************************
  *
- * Définition d'un type de bloc
+ * Définition d'un tableau d'Inode pour le 3e Bloc
  *
  ***************************************/
 
 
- typedef union
+ typedef struct
  {
-     SUPER_BLOCK super;
-    // BLOCK_REP rep;
-     INODE inode;
-    // BLOCK fichier;
- }TYPE_BLOCK;
+    INODE* tabInode;
+
+ }INODE_TAB;
 
 
  /***************************************
@@ -94,9 +75,11 @@ typedef struct FICHIER
  typedef struct BLOCK
  {
      FICHIER fichier;   // Fichier ou répertoire qu'il contient
-     int numero;      // Numéro du bloc
+     unsigned int numero;      // Numéro du bloc
      int etat;
      char* donnees[BLOC_SIZE];
+     char* typeBlock;
+
  }BLOCK;
 
 

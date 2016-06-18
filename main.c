@@ -7,7 +7,6 @@
 int main()
 {
     HARD_DISK dd; // Déclaration de mon DD
-    int i;
     FICHIER fic1;
     unsigned int taille;
     taille=64000;
@@ -18,14 +17,24 @@ int main()
 
     dd = initBlockTab(taille); // Fonction init tableau de blocs
 
+//    dd.tabBlock[0].fichier=fic1;
+//    dd.tabBlock[0].etat=1;
+//    printf("Fichier du bloc : %s\n",dd.tabBlock[0].fichier.nom);
+//    printf("Etat du bloc : %d\n",dd.tabBlock[0].etat);
 
-    dd.tabBlock[0].fichier=fic1;
-    dd.tabBlock[0].etat=1;
-    printf("Fichier du bloc : %s\n",dd.tabBlock[0].fichier.nom);
-    printf("Etat du bloc : %d\n",dd.tabBlock[0].etat);
+    // readBlocData(dd,2); // Fonction lecture d'un bloc de données du disque dd
+//    printf("Type du block 0 : %s \n",dd.tabBlock[0].typeBlock);
+//    printf("Type du block 1 : %s \n",dd.tabBlock[1].typeBlock);
+//    printf("Type du block 2 : %s \n",dd.tabBlock[2].typeBlock);
 
+//    int i;
+//    for (i=0;i<taille;i++)
+//    {
+//            printf("Case d'inode : %d \n"),dd.tabBlock[i].etat;
+//
+//    }
+//    printf("Test");
 
-    readDataBloc(dd,0); // Fonction lecture d'un bloc de données du disque dd
 
 
 
