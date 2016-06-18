@@ -22,21 +22,14 @@ HARD_DISK initBlockTab(unsigned int taille)
         monBloc = malloc(sizeof(BLOCK));
         disk.tabBlock[i]=*monBloc;                                  // Association du Bloc avec sa case dans le tableau de Blocs
         disk.tabBlock[i].numero=i;                                  // Initialisation des numéros de blocks de 0 à Taille du DD -1
-        disk.tabBlock[i].etat=0;
-        disk.tabBlock[i].typeBlock="Bloc de données";
 
-        if(i==0){                                                   // Si on est dans le BootBlock
+        if(i%4==0){                                                   // Si on est dans le BootBlock
             disk.tabBlock[i].etat=1;
             disk.tabBlock[i].typeBlock="BootBlock";
-        }
-
-        else if(i==1){                                                  // Si on est dans le SuperBlock
+        } else if(i%4==1){                                                  // Si on est dans le SuperBlock
             disk.tabBlock[i].etat=1;
             disk.tabBlock[i].typeBlock="SuperBlock";
-        }
-
-        else if (i==2)                                               // Si on est le Bloc qui contient la Table des inodes
-        {
+        } else if (i%4==2){
             disk.tabBlock[i].etat=1;
             disk.tabBlock[i].typeBlock="Table d'inodes";
 
@@ -46,6 +39,9 @@ HARD_DISK initBlockTab(unsigned int taille)
                 printf("Inode numéro = %d\n",disk.tabInode[k].numero);
 
             }
+        } else {
+            disk.tabBlock[i].etat=0;
+            disk.tabBlock[i].typeBlock="Bloc de données";
         }
 
             for (j=0;j<BLOC_SIZE;j++)
