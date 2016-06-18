@@ -1,42 +1,114 @@
 #include <stdio.h>
 #include <stdlib.h>
-//#include "donnees.h"
 #include "hdd.h"
 
+#define DISK_SIZE 16
+#define NB_PARTITIONS 2
+#define BASE_PARTITION_IDENTITY_LETTER 67 // Is ASCII code for C letter
 
 int main()
 {
-    HARD_DISK dd; // Déclaration de mon DD
-    FICHIER fic1;
-    unsigned int taille;
-    taille=64000;
-    fic1.nom="notes.txt";
-    fic1.inode.numero=5;
-    fic1.inode.premierBloc=6;
-    fic1.inode.dernierBloc=9;
+    printf("File System : START");
+    lineReturn();
 
-    dd = initBlockTab(taille); // Fonction init tableau de blocs
+    int i = 0;
 
-    dd.tabBlock[0].fichier=fic1;
-    dd.tabBlock[0].etat=1;
-    printf("Fichier du bloc : %s\n",dd.tabBlock[0].fichier.nom);
-    printf("Etat du bloc : %d\n",dd.tabBlock[0].etat);
+    // Init hard disk
+    printf("    Init hard drive : START");
+    lineReturn();
 
-    // readBlocData(dd,2); // Fonction lecture d'un bloc de données du disque dd
-//    printf("Type du block 0 : %s \n",dd.tabBlock[0].typeBlock);
-//    printf("Type du block 1 : %s \n",dd.tabBlock[1].typeBlock);
-//    printf("Type du block 2 : %s \n",dd.tabBlock[2].typeBlock);
+    HARD_DISK hardDisk;
+    hardDisk.taille = DISK_SIZE;
+    hardDisk.nbPartition = NB_PARTITIONS;
+    hardDisk.partitions = calloc(NB_PARTITIONS, sizeof(PARTITION));
 
-    int i;
-    for (i=0;i<taille;i++)
-    {
-            printf("Bloc numéro : %d \n"),dd.tabBlock[i].numero;
+    printf("    Init hard drive : DONE");
+    lineReturn();
 
+
+    // Create partitions and add them to hard disk
+    printf("    Create partitions : START");
+    lineReturn();
+
+    // Create and add NB_PARTITIONS to hard drive
+    for(i = 0; i<NB_PARTITIONS; i++) {
+        PARTITION partition;
+        hardDisk.partitions[i] = partition;
     }
-    printf("Test");
+
+    printf("    Create partitions : DONE");
+    lineReturn();
 
 
+    // Make cofee (init all in) with all properties in partitions
+    printf("    Init partitions : START");
+    lineReturn();
 
+    for(i = 0; i<NB_PARTITIONS; i++) {
+        // Init block boot
+        BLOCK_BOOT* blockBoot = malloc(sizeof(BLOCK_BOOT));
+
+        if(i == 0) {
+            blockBoot->bootPartition = true;
+        } else {
+            blockBoot->bootPartition = false;
+        }
+
+        hardDisk.partitions[i].blockBoot = blockBoot;
+        lineReturn();
+
+        // Init inode list : Nothing to do because no file or directory already in partition
+
+        // Init data block area (list of block) : : Nothing to do because no file or directory already in partition
+        hardDisk.partitions[i].tabBlocksData = calloc(DISK_SIZE/NB_PARTITIONS, sizeof(BLOCK));
+
+        // Init super block
+        SUPER_BLOCK* superBlock = malloc(sizeof(SUPER_BLOCK));
+
+        superBlock->checkIntegrity = false;
+        superBlock->systemIdentity = BASE_PARTITION_IDENTITY_LETTER + i;
+        superBlock->dataBlocksLength = DISK_SIZE/NB_PARTITIONS;
+        superBlock->freeDataBlocksLength = superBlock->dataBlocksLength;
+
+        hardDisk.partitions[i].superBlock = superBlock;
+        lineReturn();
+    }
+
+    printf("    Init partitions : DONE");
+    lineReturn();
+
+
+    printf("File System : END");
+    lineReturn();
+
+    printHardDiskInfo(hardDisk);
 
     return 0;
+}
+
+void printHardDiskInfo(HARD_DISK hardDisk) {
+    int i;
+
+    printf("Hard Disk size : %d", hardDisk.taille);
+    lineReturn();
+    for(i = 0; i < hardDisk.nbPartition; i++) {
+        if(i>0) {
+            printf("    *******************************");
+            lineReturn();
+        }
+        printf("    Partition name : %c", hardDisk.partitions[i].superBlock->systemIdentity);
+        lineReturn();
+        printf("    Boot partition : %d", hardDisk.partitions[i].blockBoot->bootPartition);
+        lineReturn();
+        printf("    Data blocks : %d", hardDisk.partitions[i].superBlock->dataBlocksLength);
+        lineReturn();
+        printf("    Free data blocks : %d", hardDisk.partitions[i].superBlock->freeDataBlocksLength);
+        lineReturn();
+        printf("    Need to check integrity : %d", hardDisk.partitions[i].superBlock->checkIntegrity);
+        lineReturn();
+    }
+}
+
+void lineReturn() {
+    printf("\n");
 }

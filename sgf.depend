@@ -1,15 +1,16 @@
 # depslib dependency file v1.0
-1466190433 source:c:\users\flo\dev\repo\sgf\main.c
+1466276520 source:c:\users\flo\dev\repo\sgf\main.c
 	<stdio.h>
 	<stdlib.h>
 	"hdd.h"
 
-1466186728 c:\users\flo\dev\repo\sgf\donnees.h
+1466275654 c:\users\flo\dev\repo\sgf\donnees.h
+	<stdbool.h>
 
-1466189839 c:\users\flo\dev\repo\sgf\hdd.h
+1466273858 c:\users\flo\dev\repo\sgf\hdd.h
 	"donnees.h"
 
-1466190234 source:c:\users\flo\dev\repo\sgf\hdd.c
+1466271257 source:c:\users\flo\dev\repo\sgf\hdd.c
 	"hdd.h"
 	<stdio.h>
 	<stdlib.h>

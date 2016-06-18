@@ -13,8 +13,8 @@
 typedef struct HARD_DISK
  {
      unsigned int taille;
-     BLOCK* tabBlock;
-     INODE* tabInode;
+     unsigned int nbPartition;
+     PARTITION* partitions;
 
  }HARD_DISK;
 
