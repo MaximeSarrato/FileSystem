@@ -19,5 +19,8 @@ typedef struct HARD_DISK
  }HARD_DISK;
 
 
+void printHardDiskInfo(HARD_DISK hardDisk);
+
 
 #endif // __HDD
+

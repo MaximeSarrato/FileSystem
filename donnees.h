@@ -3,6 +3,8 @@
 
 #include <stdbool.h>
 #include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 #define BLOC_SIZE 1024
 #define DISK_SIZE 16

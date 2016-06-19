@@ -27,14 +27,14 @@ INODE* createFile(HARD_DISK* disk, char* fileName){
     double blocksNeeded;
     blocksNeeded = (float)file.fileSize / BLOC_SIZE;
     blocksNeeded = ceil(blocksNeeded);
-    printf("We need %d blocks to store the file : %s\n",(int)blocksNeeded,file.fileName);
+    printf("\nWe need %d blocks to store the file : %s\n",(int)blocksNeeded,file.fileName);
 
     // Find the first block unused
     int firstFreeBlock = 0;
-    for(i=0; i<NB_PARTITIONS; i++){ //
-        for(j=0; j<DISK_SIZE; j++){ //
+    for(i=0; i<NB_PARTITIONS; i++) { //
+        for(j=0; j<DISK_SIZE; j++) { //
             // In case of the block is already allocated
-            if(disk->partitions[i].tabBlocksData[j].etat==1){
+            if(disk->partitions[i].tabBlocksData[j].etat==1) {
                 printf("The block %d is already allocated. Looking for the next block.\n",j);
                 firstFreeBlock++;
             }
@@ -42,11 +42,11 @@ INODE* createFile(HARD_DISK* disk, char* fileName){
     }
 
     // Number of blocks allocated and their numbers in the array
-    for(i=0; i<NB_PARTITIONS; i++){ // In the first partition
-            for(j=firstFreeBlock; j<firstFreeBlock+blocksNeeded; j++){ // Start loop with the first free block to the number of blocks needed
+    for(i=0; i<NB_PARTITIONS; i++) { // In the first partition
+            for(j=firstFreeBlock; j<firstFreeBlock+blocksNeeded; j++) { // Start loop with the first free block to the number of blocks needed
                 disk->partitions[i].tabBlocksData[j].fichier=file;
                 disk->partitions[i].tabBlocksData[j].etat=1;
-                for(k=0; k<BLOC_SIZE; k++){ // Fill the data block with data
+                for(k=0; k<BLOC_SIZE; k++) { // Fill the data block with data
                     disk->partitions[i].tabBlocksData[j].donnees[k]="Date of the file";
                     // printf("Données contenues : %s\n",disk->partitions[i].tabBlocksData[j].donnees[k]);
                     }

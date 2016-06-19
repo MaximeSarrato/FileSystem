@@ -5,27 +5,23 @@
 
 int main()
 {
-    printf("File System : START");
-    lineReturn();
+    printf("File System : START\n");
 
     int i = 0;
 
     // Init hard disk
-    printf("    Init hard drive : START");
-    lineReturn();
+    printf("\n    Init hard drive : START");
 
     HARD_DISK hardDisk;
     hardDisk.taille = DISK_SIZE;
     hardDisk.nbPartition = NB_PARTITIONS;
     hardDisk.partitions = calloc(NB_PARTITIONS, sizeof(PARTITION));
 
-    printf("    Init hard drive : DONE");
-    lineReturn();
+    printf("    Init hard drive : DONE\n");
 
 
     // Create partitions and add them to hard disk
-    printf("    Create partitions : START");
-    lineReturn();
+    printf("    Create partitions : START\n");
 
     // Create and add NB_PARTITIONS to hard drive
     for(i = 0; i<NB_PARTITIONS; i++) {
@@ -33,13 +29,11 @@ int main()
         hardDisk.partitions[i] = partition;
     }
 
-    printf("    Create partitions : DONE");
-    lineReturn();
+    printf("    Create partitions : DONE\n");
 
 
     // Make cofee (init all in) with all properties in partitions
-    printf("    Init partitions : START");
-    lineReturn();
+    printf("    Init partitions : START\n");
 
     for(i = 0; i<NB_PARTITIONS; i++) {
         // Init block boot
@@ -52,7 +46,6 @@ int main()
         }
 
         hardDisk.partitions[i].blockBoot = blockBoot;
-        lineReturn();
 
         // Init inode list : Nothing to do because no file or directory already in partition
         hardDisk.partitions[i].tabInodes = calloc(1, sizeof(INODE));
@@ -70,54 +63,24 @@ int main()
 
 
         hardDisk.partitions[i].superBlock = superBlock;
-        lineReturn();
     }
 
-    printf("    Init partitions : DONE");
-    lineReturn();
+    printf("    Init partitions : DONE\n");
 
 
-    printf("File System : END");
-    lineReturn();
+    printf("File System : END\n\n");
 
     printHardDiskInfo(hardDisk);
 
     // File creation
-    lineReturn();
     INODE* inodeFichier1 = createFile(&hardDisk,"file1");
     printf("Inode number : %d\n",inodeFichier1->numero);
-    lineReturn();
     INODE* inodeFichier2 = createFile(&hardDisk,"file2");
     printf("Inode number : %d\n",inodeFichier2->numero);
     INODE* inodeFichier3 = createFile(&hardDisk,"file3");
     printf("Inode number : %d\n",inodeFichier3->numero);
+    INODE* inodeFichier4 = createFile(&hardDisk,"file4");
+    printf("Inode number : %d\n",inodeFichier4->numero);
 
-    return 0;
-}
-
-void printHardDiskInfo(HARD_DISK hardDisk) {
-    int i;
-
-    printf("Hard Disk size : %d", hardDisk.taille);
-    lineReturn();
-    for(i = 0; i < hardDisk.nbPartition; i++) {
-        if(i>0) {
-            printf("    *******************************");
-            lineReturn();
-        }
-        printf("    Partition name : %c", hardDisk.partitions[i].superBlock->systemIdentity);
-        lineReturn();
-        printf("    Boot partition : %d", hardDisk.partitions[i].blockBoot->bootPartition);
-        lineReturn();
-        printf("    Data blocks : %d", hardDisk.partitions[i].superBlock->dataBlocksLength);
-        lineReturn();
-        printf("    Free data blocks : %d", hardDisk.partitions[i].superBlock->freeDataBlocksLength);
-        lineReturn();
-        printf("    Need to check integrity : %d", hardDisk.partitions[i].superBlock->checkIntegrity);
-        lineReturn();
-    }
-}
-
-void lineReturn() {
-    printf("\n");
+     return 0;
 }
