@@ -83,8 +83,14 @@ int main()
     printHardDiskInfo(hardDisk);
 
     // File creation
-    createFile(&hardDisk,"file1");
-
+    lineReturn();
+    INODE* inodeFichier1 = createFile(&hardDisk,"file1");
+    printf("Inode number : %d\n",inodeFichier1->numero);
+    lineReturn();
+    INODE* inodeFichier2 = createFile(&hardDisk,"file2");
+    printf("Inode number : %d\n",inodeFichier2->numero);
+    INODE* inodeFichier3 = createFile(&hardDisk,"file3");
+    printf("Inode number : %d\n",inodeFichier3->numero);
 
     return 0;
 }
