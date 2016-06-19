@@ -6,7 +6,7 @@
  *
  ***************************************/
 
-INODE* createFile(HARD_DISK* disk, char* fileName){
+INODE* createFile(HARD_DISK* disk, char* fileName, int* sizeTabInode){
 
     int i,j,k;
 
@@ -22,6 +22,9 @@ INODE* createFile(HARD_DISK* disk, char* fileName){
     file.fileSize=2048; // The file takes two blocks
     file.inode=inode;
     file.inode.numero=fileNumber;
+
+    // Upgrade the size of the Inode array at each time we create a new file
+    disk->partitions[0].tabInodes = realloc (disk->partitions[0].tabInodes, sizeTabInode+1 * sizeof(INODE));
 
     // Calculation of blocks needed
     double blocksNeeded;
@@ -60,6 +63,7 @@ INODE* createFile(HARD_DISK* disk, char* fileName){
                        disk->partitions[i].tabInodes[fileNumber].dernierBloc);
 
             }
+    sizeTabInode++;
     fileNumber++; // Incrementation of the number of files
 
     return &inode;
@@ -74,7 +78,6 @@ INODE* createFile(HARD_DISK* disk, char* fileName){
 void printFileNumber() {
     printf("Currently there is %d file(s) stored in the hard drive.",fileNumber);
 }
-
 
 /***************************************
  *

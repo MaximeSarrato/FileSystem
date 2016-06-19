@@ -8,7 +8,7 @@ int main()
     printf("File System : START\n");
 
     int i = 0;
-
+    int* sizeTabInode = 1; // At beginning it have only one case
     // Init hard disk
     printf("\n    Init hard drive : START");
 
@@ -48,8 +48,7 @@ int main()
         hardDisk.partitions[i].blockBoot = blockBoot;
 
         // Init inode list
-        // !!! 1 should be replaced by fileNumber but issue !!!//
-        hardDisk.partitions[i].tabInodes = calloc(1, sizeof(INODE));
+        hardDisk.partitions[i].tabInodes = calloc(sizeTabInode, sizeof(INODE));
 
         // Init data block area (list of block) : : Nothing to do because no file or directory already in partition
         hardDisk.partitions[i].tabBlocksData = calloc(DISK_SIZE/NB_PARTITIONS, sizeof(BLOCK));
@@ -74,9 +73,18 @@ int main()
     printHardDiskInfo(hardDisk);
 
     // File creation
-    INODE* inodeFichier1 = createFile(&hardDisk,"file1");
+    INODE* inodeFichier1 = createFile(&hardDisk,"file1",&sizeTabInode);
+    INODE* inodeFichier2 = createFile(&hardDisk,"file2",&sizeTabInode);
+    INODE* inodeFichier3 = createFile(&hardDisk,"file3",&sizeTabInode);
+    INODE* inodeFichier4 = createFile(&hardDisk,"file4",&sizeTabInode);
+    INODE* inodeFichier5 = createFile(&hardDisk,"file5",&sizeTabInode);
+    INODE* inodeFichier6 = createFile(&hardDisk,"file6",&sizeTabInode);
+    INODE* inodeFichier7 = createFile(&hardDisk,"file7",&sizeTabInode);
+    INODE* inodeFichier8 = createFile(&hardDisk,"file8",&sizeTabInode);
 
     readFile(hardDisk,inodeFichier1,1024);
+
+
 
     printFileNumber();
 
