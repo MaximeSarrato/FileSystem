@@ -2,9 +2,6 @@
 #include <stdlib.h>
 #include "hdd.h"
 
-#define DISK_SIZE 16
-#define NB_PARTITIONS 2
-#define BASE_PARTITION_IDENTITY_LETTER 67 // Is ASCII code for C letter
 
 int main()
 {
@@ -58,6 +55,7 @@ int main()
         lineReturn();
 
         // Init inode list : Nothing to do because no file or directory already in partition
+        hardDisk.partitions[i].tabInodes = calloc(1, sizeof(INODE));
 
         // Init data block area (list of block) : : Nothing to do because no file or directory already in partition
         hardDisk.partitions[i].tabBlocksData = calloc(DISK_SIZE/NB_PARTITIONS, sizeof(BLOCK));
@@ -69,6 +67,7 @@ int main()
         superBlock->systemIdentity = BASE_PARTITION_IDENTITY_LETTER + i;
         superBlock->dataBlocksLength = DISK_SIZE/NB_PARTITIONS;
         superBlock->freeDataBlocksLength = superBlock->dataBlocksLength;
+
 
         hardDisk.partitions[i].superBlock = superBlock;
         lineReturn();
@@ -82,6 +81,10 @@ int main()
     lineReturn();
 
     printHardDiskInfo(hardDisk);
+
+    // File creation
+    createFile(&hardDisk,"file1");
+
 
     return 0;
 }

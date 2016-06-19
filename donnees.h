@@ -2,8 +2,14 @@
 #define __DONNEES__
 
 #include <stdbool.h>
+#include <math.h>
 
 #define BLOC_SIZE 1024
+#define DISK_SIZE 16
+#define NB_PARTITIONS 1
+#define BASE_PARTITION_IDENTITY_LETTER 67 // Is ASCII code for C letter
+
+
 
 /***************************************
  *
@@ -30,9 +36,9 @@ typedef struct FICHIER
 {
     INODE inodeParent;
     INODE inode;
-    int repertoire; // 0 si c'est un fichier 1 si c'est un répertoire
-    char* nom;
-    int taille;
+    bool isDirectory; // 0 si c'est un fichier 1 si c'est un répertoire
+    char* fileName;
+    int fileSize;
     char* donnees[BLOC_SIZE];
 
 } FICHIER;
