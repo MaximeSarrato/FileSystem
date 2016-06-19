@@ -32,7 +32,7 @@ int main()
     printf("    Create partitions : DONE\n");
 
 
-    // Make cofee (init all in) with all properties in partitions
+    // Make coffee (init all in) with all properties in partitions
     printf("    Init partitions : START\n");
 
     for(i = 0; i<NB_PARTITIONS; i++) {
@@ -47,7 +47,8 @@ int main()
 
         hardDisk.partitions[i].blockBoot = blockBoot;
 
-        // Init inode list : Nothing to do because no file or directory already in partition
+        // Init inode list
+        // !!! 1 should be replaced by fileNumber but issue !!!//
         hardDisk.partitions[i].tabInodes = calloc(1, sizeof(INODE));
 
         // Init data block area (list of block) : : Nothing to do because no file or directory already in partition
@@ -75,7 +76,7 @@ int main()
     // File creation
     INODE* inodeFichier1 = createFile(&hardDisk,"file1");
 
-    readFile(&hardDisk,&inodeFichier1,1024);
+    readFile(hardDisk,inodeFichier1,1024);
 
     printFileNumber();
 

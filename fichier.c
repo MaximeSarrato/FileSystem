@@ -53,6 +53,7 @@ INODE* createFile(HARD_DISK* disk, char* fileName){
                 }
                 // Inode association with the file and the blocks which contains file's data.
                 disk->partitions[i].tabInodes[fileNumber].numero=fileNumber;
+                printf("Inode number is : %d \n",disk->partitions[i].tabInodes[fileNumber].numero);
                 disk->partitions[i].tabInodes[fileNumber].premierBloc=firstFreeBlock;
                 disk->partitions[i].tabInodes[fileNumber].dernierBloc=firstFreeBlock+blocksNeeded-1;
                 printf("The data of the file \"%s\" have been stored in the block %d to the block %d.\n",file.fileName,disk->partitions[i].tabInodes[fileNumber].premierBloc,
@@ -74,28 +75,31 @@ void printFileNumber() {
     printf("Currently there is %d file(s) stored in the hard drive.",fileNumber);
 }
 
-void readFile(HARD_DISK* disk, INODE* inode, int nbBytes) {
-    int i,j,k;
-    int nbBlocs=2; // Because at the moment we store every file strictly in two blocks
-    int numInode=inode->numero;
+
+/***************************************
+ *
+ * Function which permits to read a
+ * a file.
+ *
+ ***************************************/
+void readFile(HARD_DISK disk, INODE* inode, int nbBytes) {
+
+    int i,j,k,firstBlock,lastBlock;
+    int numInode = inode->numero; // Recuperation of the inode number
 
     // Blocks which contain the file's data
-    printf("Coucou avant ");
-
-//    int premierBloc=disk.partitions[i].tabInodes[0].premierBloc;
-//    int dernierBloc=disk.partitions[i].tabInodes[0].dernierBloc;
-    printf("Coucou fdp");
+    // Could be improved with the partition in parameter partitions[0]
+    firstBlock = disk.partitions[0].tabInodes[numInode].premierBloc;
+    lastBlock = disk.partitions[0].tabInodes[numInode].dernierBloc;
 
     for(i=0; i<NB_PARTITIONS; i++) { // In the first partition
-        for(j=0; j<nbBlocs; j++) {
+        for(j=firstBlock; j<=lastBlock; j++) {
             for(k=0; k<nbBytes; k++) {    // Read the number of bytes asked
-                // Data contained in the first block
-                printf("In the block %d : %s, case %d \n",j,disk->partitions[i].tabBlocksData[j].donnees[k], k);
-                // Data contained in the first block
+                printf("In the block %d : %s, case %d \n",j,disk.partitions[i].tabBlocksData[j].donnees[k], k);
             }
 
         }
 
-    }
+   }
 
 }
