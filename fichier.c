@@ -55,10 +55,47 @@ INODE* createFile(HARD_DISK* disk, char* fileName){
                 disk->partitions[i].tabInodes[fileNumber].numero=fileNumber;
                 disk->partitions[i].tabInodes[fileNumber].premierBloc=firstFreeBlock;
                 disk->partitions[i].tabInodes[fileNumber].dernierBloc=firstFreeBlock+blocksNeeded-1;
+                printf("The data of the file \"%s\" have been stored in the block %d to the block %d.\n",file.fileName,disk->partitions[i].tabInodes[fileNumber].premierBloc,
+                       disk->partitions[i].tabInodes[fileNumber].dernierBloc);
+
             }
     fileNumber++; // Incrementation of the number of files
 
     return &inode;
 }
 
+/***************************************
+ *
+ * Function of print of current number
+ * of files stored on the HDD.
+ *
+ ***************************************/
+void printFileNumber() {
+    printf("Currently there is %d file(s) stored in the hard drive.",fileNumber);
+}
 
+void readFile(HARD_DISK* disk, INODE* inode, int nbBytes) {
+    int i,j,k;
+    int nbBlocs=2; // Because at the moment we store every file strictly in two blocks
+    int numInode=inode->numero;
+
+    // Blocks which contain the file's data
+    printf("Coucou avant ");
+
+//    int premierBloc=disk.partitions[i].tabInodes[0].premierBloc;
+//    int dernierBloc=disk.partitions[i].tabInodes[0].dernierBloc;
+    printf("Coucou fdp");
+
+    for(i=0; i<NB_PARTITIONS; i++) { // In the first partition
+        for(j=0; j<nbBlocs; j++) {
+            for(k=0; k<nbBytes; k++) {    // Read the number of bytes asked
+                // Data contained in the first block
+                printf("In the block %d : %s, case %d \n",j,disk->partitions[i].tabBlocksData[j].donnees[k], k);
+                // Data contained in the first block
+            }
+
+        }
+
+    }
+
+}

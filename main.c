@@ -74,13 +74,17 @@ int main()
 
     // File creation
     INODE* inodeFichier1 = createFile(&hardDisk,"file1");
-    printf("Inode number : %d\n",inodeFichier1->numero);
-    INODE* inodeFichier2 = createFile(&hardDisk,"file2");
-    printf("Inode number : %d\n",inodeFichier2->numero);
-    INODE* inodeFichier3 = createFile(&hardDisk,"file3");
-    printf("Inode number : %d\n",inodeFichier3->numero);
-    INODE* inodeFichier4 = createFile(&hardDisk,"file4");
-    printf("Inode number : %d\n",inodeFichier4->numero);
 
-     return 0;
+    readFile(&hardDisk,&inodeFichier1,1024);
+
+    printFileNumber();
+
+    // Deallocate all
+    free(hardDisk.partitions);
+    free(hardDisk.partitions->blockBoot);
+    free(hardDisk.partitions->superBlock);
+    free(hardDisk.partitions->tabInodes);
+    free(hardDisk.partitions->tabBlocksData);
+
+    return (EXIT_SUCCESS);
 }
