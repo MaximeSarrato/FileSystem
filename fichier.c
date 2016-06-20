@@ -29,7 +29,7 @@ INODE* createFile(HARD_DISK* disk, char* fileName, int* sizeTabInode){
     // Calculation of blocks needed
     double blocksNeeded;
     blocksNeeded = (float)file.fileSize / BLOC_SIZE;
-    blocksNeeded = ceil(blocksNeeded);
+    blocksNeeded = ceil(blocksNeeded); // Rounded to the next integer to obtain the blocks needed
     printf("\nWe need %d blocks to store the file : %s\n",(int)blocksNeeded,file.fileName);
 
     // Find the first block unused
@@ -76,7 +76,7 @@ INODE* createFile(HARD_DISK* disk, char* fileName, int* sizeTabInode){
  *
  ***************************************/
 void printFileNumber() {
-    printf("Currently there is %d file(s) stored in the hard drive.",fileNumber);
+    printf("\nCurrently there is %d file(s) stored in the hard drive.\n",fileNumber);
 }
 
 /***************************************
@@ -106,3 +106,57 @@ void readFile(HARD_DISK disk, INODE* inode, int nbBytes) {
    }
 
 }
+
+/***************************************
+ *
+ * Function of open/creation file
+ * which returns the file's inode.
+ *
+ ***************************************/
+
+INODE* openFile (HARD_DISK* disk, char* fileName, int* sizeTabInode) {
+    int i,j;
+    bool fileExists = false;
+    INODE* inodeFile;
+
+    for(i=0; i<NB_PARTITIONS; i++) {
+        for(j=0;j<DISK_SIZE;j++) {
+            if(disk->partitions[i].tabBlocksData[j].fichier.fileName == fileName) { // If the file exists
+                fileExists = true;
+                printf("The file %s already exists in the block %d of the %c partition.\n"
+                       ,fileName,j,(char)BASE_PARTITION_IDENTITY_LETTER);
+
+                // The file exists then we open it
+//                if(fileExists == true) {
+//
+//                }
+            }
+
+        }
+        if (fileExists == false) {
+            inodeFile = createFile(disk,fileName,sizeTabInode);
+        }
+    }
+    return &inodeFile;
+ }
+
+
+
+
+
+
+
+
+//        do {
+//            for(j=0;j<DISK_SIZE;j++) {
+//                if(disk->partitions[i].tabBlocksData[j].fichier.fileName == fileName) {
+//                    printf("The file %s already exists in the block %d of the %c partition.\n"
+//                           ,fileName,j,(char)BASE_PARTITION_IDENTITY_LETTER);
+//                }
+//            }
+//        } while(disk->partitions[i].tabBlocksData[j].fichier.fileName == fileName); // While the file does not exists
+//        createFile(&disk,fileName,&sizeTabInode);
+//    }
+//}
+
+

@@ -76,17 +76,21 @@ int main()
     INODE* inodeFichier1 = createFile(&hardDisk,"file1",&sizeTabInode);
     INODE* inodeFichier2 = createFile(&hardDisk,"file2",&sizeTabInode);
     INODE* inodeFichier3 = createFile(&hardDisk,"file3",&sizeTabInode);
-    INODE* inodeFichier4 = createFile(&hardDisk,"file4",&sizeTabInode);
-    INODE* inodeFichier5 = createFile(&hardDisk,"file5",&sizeTabInode);
-    INODE* inodeFichier6 = createFile(&hardDisk,"file6",&sizeTabInode);
-    INODE* inodeFichier7 = createFile(&hardDisk,"file7",&sizeTabInode);
-    INODE* inodeFichier8 = createFile(&hardDisk,"file8",&sizeTabInode);
+//    INODE* inodeFichier4 = createFile(&hardDisk,"file4",&sizeTabInode);
+//    INODE* inodeFichier5 = createFile(&hardDisk,"file5",&sizeTabInode);
+//    INODE* inodeFichier6 = createFile(&hardDisk,"file6",&sizeTabInode);
+//    INODE* inodeFichier7 = createFile(&hardDisk,"file7",&sizeTabInode);
+//    INODE* inodeFichier8 = createFile(&hardDisk,"file8",&sizeTabInode);
 
-    readFile(hardDisk,inodeFichier1,1024);
+    // Read of the data of the file thanks to his inode
+//    readFile(hardDisk,inodeFichier7,1024);
 
-
+    // Open a file, if the file does not exist it will be created
+    INODE* inodeFichier35 = openFile(&hardDisk,"file35",&sizeTabInode);
+    INODE* inodeFichier36 = openFile(&hardDisk,"file36",&sizeTabInode);
 
     printFileNumber();
+    printFreeBlocks(hardDisk);
 
     // Deallocate all
     free(hardDisk.partitions);

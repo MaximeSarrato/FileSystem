@@ -21,6 +21,8 @@ typedef struct HARD_DISK
 
 void printHardDiskInfo(HARD_DISK hardDisk);
 
+void printFreeBlocks(HARD_DISK disk);
+
 
 #endif // __HDD
 
