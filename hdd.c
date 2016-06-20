@@ -37,6 +37,6 @@ void printFreeBlocks(HARD_DISK disk) {
                     freeBlocks--;
             }
         }
-        printf("It still currently %d free blocks.\n",freeBlocks);
+        printf("It currently still %d free blocks.\n",freeBlocks);
     }
 }

@@ -87,7 +87,7 @@ int main()
 
     // Open a file, if the file does not exist it will be created
     INODE* inodeFichier35 = openFile(&hardDisk,"file35",&sizeTabInode);
-    INODE* inodeFichier36 = openFile(&hardDisk,"file36",&sizeTabInode);
+    INODE* inodeFichier398 = openFile(&hardDisk,"file398",&sizeTabInode);
 
     printFileNumber();
     printFreeBlocks(hardDisk);
