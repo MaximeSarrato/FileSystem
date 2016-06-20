@@ -32,6 +32,10 @@
 			<Add option="-Wall" />
 		</Compiler>
 		<Unit filename="donnees.h" />
+		<Unit filename="fichier.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="fichier.h" />
 		<Unit filename="hdd.c">
 			<Option compilerVar="CC" />
 		</Unit>

@@ -15,3 +15,28 @@
 	<stdio.h>
 	<stdlib.h>
 
+1466435187 source:g:\programmation\sgf\hdd.c
+	"hdd.h"
+	<stdio.h>
+	<stdlib.h>
+
+1466415855 g:\programmation\sgf\hdd.h
+	"donnees.h"
+
+1466425535 g:\programmation\sgf\donnees.h
+	<stdbool.h>
+	<math.h>
+	<stdio.h>
+	<stdlib.h>
+
+1466434618 source:g:\programmation\sgf\main.c
+	<stdio.h>
+	<stdlib.h>
+	"hdd.h"
+
+1466435228 source:g:\programmation\sgf\fichier.c
+	"fichier.h"
+
+1466434977 g:\programmation\sgf\fichier.h
+	"hdd.h"
+
