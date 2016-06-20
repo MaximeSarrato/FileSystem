@@ -56,7 +56,7 @@ INODE* createFile(HARD_DISK* disk, char* fileName, int* sizeTabInode){
                 }
                 // Inode association with the file and the blocks which contains file's data.
                 disk->partitions[i].tabInodes[fileNumber].numero=fileNumber;
-                printf("Inode number of \%s\ is : %d \n",fileName,disk->partitions[i].tabInodes[fileNumber].numero);
+                printf("Inode number of \"%s\" is : %d \n",fileName,disk->partitions[i].tabInodes[fileNumber].numero);
                 disk->partitions[i].tabInodes[fileNumber].premierBloc=firstFreeBlock;
                 disk->partitions[i].tabInodes[fileNumber].dernierBloc=firstFreeBlock+blocksNeeded-1;
                 printf("The data of the file \"%s\" have been stored in the block %d and %d.\n",file.fileName,disk->partitions[i].tabInodes[fileNumber].premierBloc,
@@ -133,7 +133,7 @@ INODE* openFile (HARD_DISK* disk, char* fileName, int* sizeTabInode) {
         }
         // The file exists then open it (read data)
         if(fileExists == true) {
-            readFile(disk,inodeFile,5);
+            readFile(disk,inodeFile,5); // Read of 5 bytes of the existing file
         }
         else if (fileExists == false) {
             inodeFile = createFile(disk,fileName,sizeTabInode);
@@ -143,22 +143,45 @@ INODE* openFile (HARD_DISK* disk, char* fileName, int* sizeTabInode) {
  }
 
 
+void writeFile(HARD_DISK* disk, INODE* inode, int nbBytes) {
 
+    int i,j,k,firstBlock,lastBlock;
+    int numInode = inode->numero; // Recuperation of the inode number
 
+    // Blocks which contain the file's data
+    // Could be improved with the partition in parameter partitions[0]
+    firstBlock = disk->partitions[0].tabInodes[numInode].premierBloc;
+    lastBlock = disk->partitions[0].tabInodes[numInode].dernierBloc;
+    for(i=0; i<NB_PARTITIONS; i++) { // In the first partition
+        // If bytes of the file is smaller than a BLOC_SIZE
+        // Filling only one block
+        if (nbBytes < BLOC_SIZE) {
+            for(j=firstBlock; j<firstBlock+1; j++) {
+                for(k=0; k<nbBytes; k++) {    // Read the number of bytes asked
+                    disk->partitions[0].tabBlocksData[j].donnees[k]="Adding some data with writeFile function";
+                    printf("In the block %d : %s, case %d \n",j,disk->partitions[i].tabBlocksData[j].donnees[k], k);
+                }
+            }
 
+        }
+        // If the number of bytes need 2 blocks to be stored
+        else if (nbBytes > BLOC_SIZE && nbBytes < 2048) {
+                for(j=firstBlock;j<firstBlock+1;j++) {
+                    for(k=0; k<BLOC_SIZE; k++) {    // Read the number of bytes asked
+                        disk->partitions[0].tabBlocksData[j].donnees[k]="Adding some data with writeFile function";
+                        printf("In the block %d : %s, case %d \n",j,disk->partitions[i].tabBlocksData[j].donnees[k], k);
+                    }
+                }
+                for(j=lastBlock;j<lastBlock+1;j++) {
+                    for(k=0; k<(nbBytes-BLOC_SIZE); k++) {
+                        disk->partitions[0].tabBlocksData[j].donnees[k]="Adding some data with writeFile function";
+                        printf("In the block %d : %s, case %d \n",j,disk->partitions[i].tabBlocksData[j].donnees[k], k);
+                    }
+                }
+        }
 
-
-
-//        do {
-//            for(j=0;j<DISK_SIZE;j++) {
-//                if(disk->partitions[i].tabBlocksData[j].fichier.fileName == fileName) {
-//                    printf("The file %s already exists in the block %d of the %c partition.\n"
-//                           ,fileName,j,(char)BASE_PARTITION_IDENTITY_LETTER);
-//                }
-//            }
-//        } while(disk->partitions[i].tabBlocksData[j].fichier.fileName == fileName); // While the file does not exists
-//        createFile(&disk,fileName,&sizeTabInode);
-//    }
-//}
-
-
+    }
+    // Allocate supplementary blocks if the file needs more than 2 blocks to be stored
+    // Should be necessary to use an array for each inode where we would store each number
+    // of blocks which are containing the data of a given file
+}
