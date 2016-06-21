@@ -120,8 +120,4 @@ typedef struct DIRECTORY
     BLOCK* tabBlocksData;
  } PARTITION;
 
-
-
-
-
 #endif // __DONNEES__

@@ -22,19 +22,18 @@ void mkdir(HARD_DISK* disk, char* dirName) {
             }
         }
     }
-
+    // Adding directory informations to the container block
     for(i=0; i<NB_PARTITIONS; i++) { // In the first partition
         for(j=firstFreeBlock; j<firstFreeBlock+1; j++) { // Start loop with the first free block to the number of blocks needed
             disk->partitions[i].tabBlocksData[j].directory.dirName=dirName;
             disk->partitions[i].tabBlocksData[j].directory.inode=dirInode;
-            }
-                    // Inode association with the directory.
-                    disk->partitions[i].tabInodes[fileNumber].numero=fileNumber;
-                    disk->partitions[i].tabInodes[fileNumber].premierBloc=firstFreeBlock;
-                    disk->partitions[i].tabInodes[fileNumber].dernierBloc=firstFreeBlock;
-                    printf("\nThe inode number of \"%s\" is : %d \n",dirName,disk->partitions[i].tabInodes[fileNumber].numero);
-                    printf("The directory \"%s\" have been stored in the block %d.\n",dirName,disk->partitions[i].tabInodes[fileNumber].premierBloc);
-
-                }
+        }
+            // Inode association with the directory.
+            disk->partitions[i].tabInodes[fileNumber].numero=fileNumber;
+            disk->partitions[i].tabInodes[fileNumber].premierBloc=firstFreeBlock;
+            disk->partitions[i].tabInodes[fileNumber].dernierBloc=firstFreeBlock;
+            printf("\nThe inode number of \"%s\" is : %d \n",dirName,disk->partitions[i].tabInodes[fileNumber].numero);
+            printf("The directory \"%s\" have been stored in the block %d.\n",dirName,disk->partitions[i].tabInodes[fileNumber].premierBloc);
+    }
     fileNumber++;
 }

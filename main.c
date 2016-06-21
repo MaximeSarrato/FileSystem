@@ -75,21 +75,22 @@ int main()
     INODE* inodeFichier1 = createFile(&hardDisk,"file1",&sizeTabInode);
     INODE* inodeFichier2 = createFile(&hardDisk,"file2",&sizeTabInode);
     INODE* inodeFichier3 = createFile(&hardDisk,"file3",&sizeTabInode);
-//    INODE* inodeFichier4 = createFile(&hardDisk,"file4",&sizeTabInode);
-//    INODE* inodeFichier5 = createFile(&hardDisk,"file5",&sizeTabInode);
-//    INODE* inodeFichier6 = createFile(&hardDisk,"file6",&sizeTabInode);
+    INODE* inodeFichier4 = createFile(&hardDisk,"file4",&sizeTabInode);
+    INODE* inodeFichier5 = createFile(&hardDisk,"file5",&sizeTabInode);
+    INODE* inodeFichier6 = createFile(&hardDisk,"file6",&sizeTabInode);
 //    INODE* inodeFichier7 = createFile(&hardDisk,"file7",&sizeTabInode);
 //    INODE* inodeFichier8 = createFile(&hardDisk,"file8",&sizeTabInode);
 
     // Read of the data of the file thanks to his inode
-    // readFile(&hardDisk,inodeFichier1,1024);
+    readFile(&hardDisk,inodeFichier1,1024);
 
     // Open a file, if the file does not exist it will be created
     INODE* inodeFichier35 = openFile(&hardDisk,"file35",&sizeTabInode);
     INODE* inodeFichier398 = openFile(&hardDisk,"file398",&sizeTabInode);
 
-    writeFile(&hardDisk,inodeFichier3,1987);
+    // writeFile(&hardDisk,inodeFichier3,1987);
 
+    // Creation of a directory
     mkdir(&hardDisk,"Directory1");
 
     printFileNumber();

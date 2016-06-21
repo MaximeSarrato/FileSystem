@@ -1,5 +1,4 @@
 #include "fichier.h"
-int fileNumber=0;
 /***************************************
  *
  * Function of file creation which returns the file's inode.
