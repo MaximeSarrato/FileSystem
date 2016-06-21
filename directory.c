@@ -223,6 +223,7 @@ void unlinkFile(HARD_DISK* disk, char* dirName, char* fileName) {
             }
         }
         }
+        // Issue here, the file is not suppressed from the disk if he is empty
         else if(fileIsEmpty && existingFile) {
                 // Browse of the file's data
                 for(j=firstBlock; j<=lastBlock; j++) {
