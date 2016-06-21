@@ -28,16 +28,17 @@ void mkdir(HARD_DISK* disk, char* dirName) {
             disk->partitions[i].tabBlocksData[j].directory.dirName=dirName;
             disk->partitions[i].tabBlocksData[j].directory.inode=dirInode;
             disk->partitions[i].tabBlocksData[j].etat=1;
+            disk->partitions[i].tabBlocksData[j].directory.nbSlots=NB_MAX_FILES;
             // Initialization of the array files of the directory
             // Supposing a directory can strictly contains a maximum of 4 files
-            disk->partitions[0].tabBlocksData[j].directory.files = calloc(4,sizeof(FICHIER));
+            disk->partitions[0].tabBlocksData[j].directory.files = calloc(NB_MAX_FILES,sizeof(FICHIER));
         }
             // Inode association with the directory.
         disk->partitions[i].tabInodes[fileNumber].numero=fileNumber;
         disk->partitions[i].tabInodes[fileNumber].premierBloc=firstFreeBlock;
         disk->partitions[i].tabInodes[fileNumber].dernierBloc=firstFreeBlock;
         printf("\nThe inode number of \"%s\" is : %d \n",dirName,disk->partitions[i].tabInodes[fileNumber].numero);
-        printf("The directory \"%s\" have been stored in the block %d.\n",dirName,disk->partitions[i].tabInodes[fileNumber].premierBloc);
+        printf("The directory \"%s\" have been stored in the block %d.\n\n",dirName,disk->partitions[i].tabInodes[fileNumber].premierBloc);
     }
     fileNumber++;
 }
@@ -62,7 +63,7 @@ void rmdir(HARD_DISK* disk, char* dirName) {
                     existingDirectory = true;
                     numInode = disk->partitions[i].tabBlocksData[j].directory.inode.numero;
                     // Browse of the directory's files
-                    for(k=0; k<4; k++) { // For the moment a directory can just contain 4 files
+                    for(k=0; k<NB_MAX_FILES; k++) { // For the moment a directory can just contain 4 files
                         if(disk->partitions[i].tabBlocksData[j].directory.files[k].fileName==NULL) {
                             emptyDirectory = true;
                         }
@@ -86,5 +87,70 @@ void rmdir(HARD_DISK* disk, char* dirName) {
     }
     if(existingDirectory == false) {
             printf("The directory \"%s\" doesn't exists.\n",dirName);
+    }
+}
+
+/*************************************
+* Function which permits to put an
+* existing file in a directory
+**************************************/
+void link(HARD_DISK* disk, char* dirName, char* fileName) {
+
+    int i, j, k, directoryBlock, firstFreeSlot;
+    FICHIER file;
+    DIRECTORY directory;
+    bool existingFile = false;
+    bool existingDirectory = false;
+    firstFreeSlot = NB_MAX_FILES;
+
+    // Looking if the file and the directory exists
+    for(i=0; i<NB_PARTITIONS; i++) { //
+        for(j=0; j<DISK_SIZE; j++) { //
+            if(disk->partitions[i].tabBlocksData[j].fichier.fileName == fileName) {
+                existingFile = true;
+                file = disk->partitions[i].tabBlocksData[j].fichier;
+                file.inode = disk->partitions[i].tabBlocksData[j].fichier.inode;
+            }
+            else if (disk->partitions[i].tabBlocksData[j].directory.dirName == dirName) {
+                    existingDirectory = true;
+                    directory = disk->partitions[i].tabBlocksData[j].directory;
+                    directoryBlock = j;
+            }
+        }
+    }
+    // If the directory and the file exist then i check if the directory has a free slot
+    if(existingFile && existingDirectory) {
+        for(i=0; i<NB_PARTITIONS; i++) { //
+            for(j=0; j<DISK_SIZE; j++) { //
+                for(k=0; k<NB_MAX_FILES; k++)
+                    // Searching the first free slot
+                    if(disk->partitions[i].tabBlocksData[directoryBlock].directory.files[k].inDirectory==false) {
+                        firstFreeSlot = k;
+                    }
+            }
+            // If the directory have not empty slot
+            if (firstFreeSlot == NB_MAX_FILES) {
+                printf("The directory \"%s\" is full, can't store file \"%s\".\n",dirName,fileName);
+
+            }
+        }
+    }
+
+    // If one of those elements does not exist
+    else if (existingDirectory == false || existingFile == false) {
+            printf("The directory \"%s\" or ",dirName);
+            printf("the file \"%s\" doesn't exist in %c partition.\n",fileName,(char)BASE_PARTITION_IDENTITY_LETTER);
+    }
+
+    // If directory is not full system can add the file
+    if (firstFreeSlot < NB_MAX_FILES) {
+        for(i=0; i<NB_PARTITIONS; i++) {
+            for(j=0; j<NB_MAX_FILES; j++) {
+                disk->partitions[i].tabBlocksData[directoryBlock].directory.files[firstFreeSlot].fileName=fileName;  // Set file name
+                disk->partitions[i].tabBlocksData[directoryBlock].directory.files[firstFreeSlot].inode = file.inode; // Set file inode
+                disk->partitions[i].tabBlocksData[directoryBlock].directory.files[firstFreeSlot].inDirectory = true;
+            }
+        }
+        printf("The file \"%s\" has been added in the directory \"%s\" at slot %d.\n",fileName,dirName,firstFreeSlot);
     }
 }

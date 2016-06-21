@@ -82,7 +82,7 @@ int main()
 //    INODE* inodeFichier8 = createFile(&hardDisk,"file8",&sizeTabInode);
 
     // Read of the data of the file thanks to his inode
-    readFile(&hardDisk,inodeFichier1,1024);
+    // readFile(&hardDisk,inodeFichier1,1024);
 
     // Open a file, if the file does not exist it will be created
     INODE* inodeFichier35 = openFile(&hardDisk,"file35",&sizeTabInode);
@@ -94,7 +94,14 @@ int main()
     mkdir(&hardDisk,"Directory1");
 
     // Delete the directory
-    rmdir(&hardDisk,"Directory1");
+    // rmdir(&hardDisk,"Directory1");
+
+    link(&hardDisk,"Directory1","file19896");
+    link(&hardDisk,"Directory1","file2");
+    link(&hardDisk,"Directory1","file3");
+    link(&hardDisk,"Directory1","file35");
+    link(&hardDisk,"Directory1","file398");
+    link(&hardDisk,"Directory1","file35");
 
     printFileNumber();
     printFreeBlocks(hardDisk);

@@ -10,6 +10,7 @@
 #define DISK_SIZE 16
 #define NB_PARTITIONS 1
 #define BASE_PARTITION_IDENTITY_LETTER 67 // Is ASCII code for C letter
+#define NB_MAX_FILES 4
 
 int fileNumber;
 
@@ -40,6 +41,7 @@ typedef struct FICHIER
     char* fileName;
     int fileSize;
     char* donnees[BLOC_SIZE];
+    bool inDirectory;
 
 } FICHIER;
 
@@ -55,8 +57,8 @@ typedef struct DIRECTORY
     INODE inode;              // Numéro de l'inode
     INODE parentInode;
     FICHIER* files;
-    int nbFiles;              // Nombre de fichiers qu'il contient
-    int nbDirectory;              // nombre de répertoires qu'il contient
+    int nbSlots;
+    int nbDirectory;          // nombre de répertoires qu'il contient
 } DIRECTORY;
 
 
