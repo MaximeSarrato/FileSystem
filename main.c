@@ -98,9 +98,7 @@ int main()
 
     link(&hardDisk,"Directory1","file19896");
     link(&hardDisk,"Directory1","file2");
-    link(&hardDisk,"Directory1","file3");
     link(&hardDisk,"Directory1","file35");
-    link(&hardDisk,"Directory1","file398");
     link(&hardDisk,"Directory1","file35");
 
     printFileNumber();

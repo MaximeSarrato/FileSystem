@@ -101,6 +101,7 @@ void link(HARD_DISK* disk, char* dirName, char* fileName) {
     DIRECTORY directory;
     bool existingFile = false;
     bool existingDirectory = false;
+    bool fileAlreadyStored = false;
     firstFreeSlot = NB_MAX_FILES;
 
     // Looking if the file and the directory exists
@@ -127,11 +128,18 @@ void link(HARD_DISK* disk, char* dirName, char* fileName) {
                     if(disk->partitions[i].tabBlocksData[directoryBlock].directory.files[k].inDirectory==false) {
                         firstFreeSlot = k;
                     }
+                    else if(disk->partitions[i].tabBlocksData[directoryBlock].directory.files[k].fileName==fileName) {
+                        // firstFreeSlot = NB_MAX_FILES;
+                        fileAlreadyStored = true;
+                    }
             }
             // If the directory have not empty slot
             if (firstFreeSlot == NB_MAX_FILES) {
                 printf("The directory \"%s\" is full, can't store file \"%s\".\n",dirName,fileName);
 
+            }
+            else if (fileAlreadyStored) {
+                     printf("The file \"%s\" is already stored in the directory \"%s\" !\n");
             }
         }
     }
@@ -143,7 +151,7 @@ void link(HARD_DISK* disk, char* dirName, char* fileName) {
     }
 
     // If directory is not full system can add the file
-    if (firstFreeSlot < NB_MAX_FILES) {
+    if (firstFreeSlot < NB_MAX_FILES && fileAlreadyStored == false) {
         for(i=0; i<NB_PARTITIONS; i++) {
             for(j=0; j<NB_MAX_FILES; j++) {
                 disk->partitions[i].tabBlocksData[directoryBlock].directory.files[firstFreeSlot].fileName=fileName;  // Set file name
