@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include "hdd.h"
 
-
 int main()
 {
     printf("File System : START\n");
@@ -83,7 +82,7 @@ int main()
 //    INODE* inodeFichier8 = createFile(&hardDisk,"file8",&sizeTabInode);
 
     // Read of the data of the file thanks to his inode
-    readFile(&hardDisk,inodeFichier1,1024);
+    // readFile(&hardDisk,inodeFichier1,1024);
 
     // Open a file, if the file does not exist it will be created
     INODE* inodeFichier35 = openFile(&hardDisk,"file35",&sizeTabInode);
@@ -91,6 +90,7 @@ int main()
 
     writeFile(&hardDisk,inodeFichier3,1987);
 
+    mkdir(&hardDisk,"Directory1");
 
     printFileNumber();
     printFreeBlocks(hardDisk);

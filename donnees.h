@@ -11,7 +11,7 @@
 #define NB_PARTITIONS 1
 #define BASE_PARTITION_IDENTITY_LETTER 67 // Is ASCII code for C letter
 
-
+int fileNumber;
 
 /***************************************
  *
@@ -36,14 +36,28 @@ typedef struct INODE
 
 typedef struct FICHIER
 {
-    INODE inodeParent;
     INODE inode;
-    bool isDirectory; // 0 si c'est un fichier 1 si c'est un répertoire
     char* fileName;
     int fileSize;
     char* donnees[BLOC_SIZE];
 
 } FICHIER;
+
+/***************************************
+ *
+ * Structure de données des repertoires
+ *
+ ***************************************/
+
+typedef struct DIRECTORY
+{
+    char* dirName;             // Nom du fichier
+    INODE inode;              // Numéro de l'inode
+    INODE parentInode;
+    FICHIER* files;
+    int nbFiles;              // Nombre de fichiers qu'il contient
+    int nbDirectory;              // nombre de répertoires qu'il contient
+} DIRECTORY;
 
 
 /***************************************
@@ -54,7 +68,8 @@ typedef struct FICHIER
 
  typedef struct BLOCK
  {
-     FICHIER fichier;          // Fichier ou répertoire qu'il contient
+     FICHIER fichier;
+     DIRECTORY directory;
      unsigned int numero;      // Numéro du bloc
      int etat;
      char* donnees[BLOC_SIZE];
@@ -97,7 +112,6 @@ typedef struct FICHIER
  * Structure de partition
  *
  ***************************************/
-
  typedef struct PARTITION
  {
     BLOCK_BOOT* blockBoot;
@@ -107,19 +121,6 @@ typedef struct FICHIER
  } PARTITION;
 
 
-/***************************************
- *
- * Structure de données des repertoires
- *
- ***************************************/
-
-typedef struct REPERTOIRE
-{
-    char* name;             // Nom du fichier
-    int inode;              // Numéro de l'inode
-    int nbFic;              // Nombre de fichiers qu'il contient
-    int nbRep;              // nombre de répertoires qu'il contient
-} REPERTOIRE;
 
 
 

@@ -1,5 +1,5 @@
 #include "fichier.h"
-
+int fileNumber=0;
 /***************************************
  *
  * Function of file creation which returns the file's inode.
@@ -159,7 +159,7 @@ void writeFile(HARD_DISK* disk, INODE* inode, int nbBytes) {
             for(j=firstBlock; j<firstBlock+1; j++) {
                 for(k=0; k<nbBytes; k++) {    // Read the number of bytes asked
                     disk->partitions[0].tabBlocksData[j].donnees[k]="Adding some data with writeFile function";
-                    printf("In the block %d : %s, case %d \n",j,disk->partitions[i].tabBlocksData[j].donnees[k], k);
+                 //   printf("In the block %d : %s, case %d \n",j,disk->partitions[i].tabBlocksData[j].donnees[k], k);
                 }
             }
 
@@ -168,14 +168,14 @@ void writeFile(HARD_DISK* disk, INODE* inode, int nbBytes) {
         else if (nbBytes > BLOC_SIZE && nbBytes < 2048) {
                 for(j=firstBlock;j<firstBlock+1;j++) {
                     for(k=0; k<BLOC_SIZE; k++) {    // Read the number of bytes asked
-                        disk->partitions[0].tabBlocksData[j].donnees[k]="Adding some data with writeFile function";
-                        printf("In the block %d : %s, case %d \n",j,disk->partitions[i].tabBlocksData[j].donnees[k], k);
+                        disk->partitions[0].tabBlocksData[j].donnees[k]="Data added with writeFile function";
+                     //   printf("In the block %d : %s, case %d \n",j,disk->partitions[i].tabBlocksData[j].donnees[k], k);
                     }
                 }
                 for(j=lastBlock;j<lastBlock+1;j++) {
                     for(k=0; k<(nbBytes-BLOC_SIZE); k++) {
-                        disk->partitions[0].tabBlocksData[j].donnees[k]="Adding some data with writeFile function";
-                        printf("In the block %d : %s, case %d \n",j,disk->partitions[i].tabBlocksData[j].donnees[k], k);
+                        disk->partitions[0].tabBlocksData[j].donnees[k]="Data added with writeFile function";
+                     //   printf("In the block %d : %s, case %d \n",j,disk->partitions[i].tabBlocksData[j].donnees[k], k);
                     }
                 }
         }
