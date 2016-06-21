@@ -75,9 +75,9 @@ int main()
     INODE* inodeFichier1 = createFile(&hardDisk,"file1",&sizeTabInode);
     INODE* inodeFichier2 = createFile(&hardDisk,"file2",&sizeTabInode);
     INODE* inodeFichier3 = createFile(&hardDisk,"file3",&sizeTabInode);
-    INODE* inodeFichier4 = createFile(&hardDisk,"file4",&sizeTabInode);
-    INODE* inodeFichier5 = createFile(&hardDisk,"file5",&sizeTabInode);
-    INODE* inodeFichier6 = createFile(&hardDisk,"file6",&sizeTabInode);
+//    INODE* inodeFichier4 = createFile(&hardDisk,"file4",&sizeTabInode);
+//    INODE* inodeFichier5 = createFile(&hardDisk,"file5",&sizeTabInode);
+//    INODE* inodeFichier6 = createFile(&hardDisk,"file6",&sizeTabInode);
 //    INODE* inodeFichier7 = createFile(&hardDisk,"file7",&sizeTabInode);
 //    INODE* inodeFichier8 = createFile(&hardDisk,"file8",&sizeTabInode);
 
@@ -92,6 +92,9 @@ int main()
 
     // Creation of a directory
     mkdir(&hardDisk,"Directory1");
+
+    // Delete the directory
+    rmdir(&hardDisk,"Directory1");
 
     printFileNumber();
     printFreeBlocks(hardDisk);
