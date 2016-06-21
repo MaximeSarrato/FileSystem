@@ -155,11 +155,12 @@ void writeFile(HARD_DISK* disk, INODE* inode, int nbBytes) {
         // If bytes of the file is smaller than a BLOC_SIZE
         // Filling only one block
         if (nbBytes < BLOC_SIZE) {
-            for(j=firstBlock; j<firstBlock+1; j++) {
+            for(j=firstBlock; j<=firstBlock; j++) {
                 for(k=0; k<nbBytes; k++) {    // Read the number of bytes asked
-                    disk->partitions[0].tabBlocksData[j].donnees[k]="Adding some data with writeFile function";
+                    disk->partitions[0].tabBlocksData[j].donnees[k]="";
                  //   printf("In the block %d : %s, case %d \n",j,disk->partitions[i].tabBlocksData[j].donnees[k], k);
                 }
+                disk->partitions[0].tabBlocksData[j].fichier.fileSize = nbBytes;
             }
 
         }
@@ -177,6 +178,9 @@ void writeFile(HARD_DISK* disk, INODE* inode, int nbBytes) {
                      //   printf("In the block %d : %s, case %d \n",j,disk->partitions[i].tabBlocksData[j].donnees[k], k);
                     }
                 }
+                // Length of the file in attribute
+                disk->partitions[0].tabBlocksData[firstBlock].fichier.fileSize = nbBytes;
+                disk->partitions[0].tabBlocksData[lastBlock].fichier.fileSize = nbBytes;
         }
 
     }

@@ -162,3 +162,89 @@ void link(HARD_DISK* disk, char* dirName, char* fileName) {
         printf("The file \"%s\" has been added in the directory \"%s\" at slot %d.\n",fileName,dirName,firstFreeSlot);
     }
 }
+
+void unlinkFile(HARD_DISK* disk, char* dirName, char* fileName) {
+
+    int i,j,k,l, directoryBlock, fileBlockInDirectory, fileSize, numInode;
+    int firstBlock, lastBlock;
+    FICHIER file;
+    DIRECTORY directory;
+    file.fileName = fileName;
+    bool existingFile = false;
+    bool existingDirectory = false;
+    bool fileInDirectory = false;
+    bool fileIsEmpty = false;
+    INODE* ptrFileInode, ptrInode;
+    ptrFileInode = &file.inode;
+
+        // Looking if the file and the directory exists
+    for(i=0; i<NB_PARTITIONS; i++) { //
+        for(j=0; j<DISK_SIZE; j++) { //
+            if(disk->partitions[i].tabBlocksData[j].fichier.fileName == fileName) {
+                existingFile = true;
+                file = disk->partitions[i].tabBlocksData[j].fichier;
+                file.inode = disk->partitions[i].tabBlocksData[j].fichier.inode;
+                fileSize = disk->partitions[i].tabBlocksData[j].fichier.fileSize;
+                numInode = disk->partitions[i].tabBlocksData[j].fichier.inode.numero;
+                firstBlock = j; // First block where the file is stored on the HDD
+            }
+            else if (disk->partitions[i].tabBlocksData[j].directory.dirName == dirName) {
+                    existingDirectory = true;
+                    directory = disk->partitions[i].tabBlocksData[j].directory;
+                    directoryBlock = j;
+            }
+        }
+        lastBlock=firstBlock+1; // Last block where the file is stored on the HDD
+    }
+    // If the directory and the file exist then check if the file is in the directory
+    if(existingFile && existingDirectory) {
+        for(i=0; i<NB_PARTITIONS; i++) { //
+            for(j=0; j<DISK_SIZE; j++) { //
+                for(k=0; k<NB_MAX_FILES; k++) {
+                    // If names correspond
+                    if (disk->partitions[i].tabBlocksData[directoryBlock].directory.files[k].fileName==fileName) {
+                        fileInDirectory= true;
+                        // Get the index where the file is stored in the directory
+                        fileBlockInDirectory = k;
+                    }
+                }
+            }
+        }
+        if (fileInDirectory == false) {
+            printf("The file \"%s\" isn't in the directory \"%s\".\n",fileName,dirName);
+        }
+        else if (fileInDirectory) {
+            for(i=0; i<NB_PARTITIONS; i++) {
+                for(j=directoryBlock; j<=directoryBlock; j++) {
+                    disk->partitions[i].tabBlocksData[directoryBlock].directory.files[fileBlockInDirectory].inDirectory = false;
+                    disk->partitions[i].tabBlocksData[directoryBlock].directory.files[fileBlockInDirectory].fileName = NULL;
+                    printf("\nRemoval of the file \"%s\" from the directory \"%s\"\n",fileName,dirName);
+                }
+            }
+        }
+        }
+        else if(fileIsEmpty && existingFile) {
+                // Browse of the file's data
+                for(j=firstBlock; j<=lastBlock; j++) {
+                    for(k=0; k<BLOC_SIZE; k++) {
+                // If the file has not any data the system delete it
+                        if (disk->partitions[i].tabBlocksData[j].fichier.donnees[k]==NULL) {
+                            fileIsEmpty = true;
+                            for(l=0; l<DISK_SIZE; l++) {
+                                if (disk->partitions[i].tabBlocksData[j].fichier.fileName == fileName) {
+                                    disk->partitions[i].tabBlocksData[j].etat=0;
+                                    disk->partitions[i].tabBlocksData[j].fichier.fileSize=0;
+                                }
+                            }
+                        }
+                    }
+                }
+                printf("\nRemoval of the file \"%s\" from the disk because it contains no data.\n",fileName);
+        }
+    // If one of those elements does not exist
+        else if (existingDirectory == false || existingFile == false) {
+            printf("The directory \"%s\" or ",dirName);
+            printf("the file \"%s\" doesn't exist in %c partition.\n",fileName,(char)BASE_PARTITION_IDENTITY_LETTER);
+    }
+
+}

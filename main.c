@@ -88,7 +88,7 @@ int main()
     INODE* inodeFichier35 = openFile(&hardDisk,"file35",&sizeTabInode);
     INODE* inodeFichier398 = openFile(&hardDisk,"file398",&sizeTabInode);
 
-    // writeFile(&hardDisk,inodeFichier3,1987);
+
 
     // Creation of a directory
     mkdir(&hardDisk,"Directory1");
@@ -96,10 +96,18 @@ int main()
     // Delete the directory
     // rmdir(&hardDisk,"Directory1");
 
-    link(&hardDisk,"Directory1","file19896");
-    link(&hardDisk,"Directory1","file2");
-    link(&hardDisk,"Directory1","file35");
-    link(&hardDisk,"Directory1","file35");
+  ;
+
+    writeFile(&hardDisk,inodeFichier3,500);
+    readFile(&hardDisk,inodeFichier3,10);
+    link(&hardDisk,"Directory1","file3");
+
+    // Unlink a file from a directory
+    unlinkFile(&hardDisk,"Directory1","file3");
+
+//    link(&hardDisk,"Directory1","file2");
+//    link(&hardDisk,"Directory1","file35");
+//    link(&hardDisk,"Directory1","file35");
 
     printFileNumber();
     printFreeBlocks(hardDisk);
