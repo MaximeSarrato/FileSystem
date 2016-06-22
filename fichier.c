@@ -18,6 +18,7 @@ INODE* createFile(HARD_DISK* disk, char* fileName, int* sizeTabInode){
     inode.numero=fileNumber;
 
     // File size (a block can support 1024 bytes)
+    // We could improve that by using the size of a given file in parameter of function
     file.fileSize=2048; // The file takes two blocks
     file.inode=inode;
     file.inode.numero=fileNumber;

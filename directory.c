@@ -218,7 +218,7 @@ void unlinkFile(HARD_DISK* disk, char* dirName, char* fileName) {
                 for(j=directoryBlock; j<=directoryBlock; j++) {
                     disk->partitions[i].tabBlocksData[directoryBlock].directory.files[fileBlockInDirectory].inDirectory = false;
                     disk->partitions[i].tabBlocksData[directoryBlock].directory.files[fileBlockInDirectory].fileName = NULL;
-                    printf("\nRemoval of the file \"%s\" from the directory \"%s\"\n",fileName,dirName);
+                    printf("\nRemoval of the file \"%s\" from the directory \"%s\ have been done.\n",fileName,dirName);
                 }
             }
         }
