@@ -1,6 +1,4 @@
 #include "hdd.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 /********************************************
  * Print the different hard disk informations

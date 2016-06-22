@@ -5,7 +5,7 @@ void launchShell(HARD_DISK* disk){
 	while(continuer)
 	{// boucle infinie dont on sort si l'utilisateur écrit "exit"
 		char str[MAX]; // récupère ce qui est écrit par l'utilisateur
-		printf("\n[SGF] $ : ");
+		printf("\n[SGF] $ : "); // Prompt
 		if(feof(stdin)) // gère le CTRL+D
 			exit(0);
 		fgets(str, MAX, stdin);
@@ -88,7 +88,7 @@ void separe(char* str, char** mots, int nbLettres, char caracSep)
 int commandePerso(char* str, char** mots, int taille, HARD_DISK* disk)
 {// Verifie si la commande est handmade
 
-	if(!strcmp("_echo", mots[0]))
+	if(!strcmp("echo", mots[0]))
 		echo(mots, taille, disk);/*
 	else if(!strcmp("_cat", mots[0]))
 		cat(mots[1]);
@@ -109,16 +109,12 @@ void echo(char** str, int taille, HARD_DISK* disk)
 	int i = 1, j = 0;
 	char c[MAX] = {""};
 	char b[MAX] = {""};
-    printf("strcmp ????? %d\n", strcmp(str[taille-2], ">"));
-    printf("Dernier guillemet ????? ????? %c\n", str[taille-3][strlen(str[taille-3])-1]);
-    printf("taille ???? ????? %d\n", strlen(str[taille-3]));
 	if(str[1][0] == '"' && str[taille-1][strlen(str[taille-1])-1] == '"'){//Quand on met pas de chevron
 
 	    for(j=0 ; j<strlen(str[1])-1 ; j++)//Recupere le 1er mot pour enlever le guillemet
             c[j] = str[1][j+1];
         strcpy(str[1], c);
 	    for(j=0 ; j<strlen(str[taille-1])-1 ; j++){ //Recupere le dernier mot pour enlever le guillemet
-	        printf("Lettre parcourue %c\n", str[taille-1][j]);
             b[j] = str[taille-1][j];
 	    }
         strcpy(str[taille-1], b);
