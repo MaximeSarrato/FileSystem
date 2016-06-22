@@ -1,6 +1,3 @@
-//#include <stdio.h>
-//#include <stdlib.h>
-//#include "hdd.h"
 #include "shell.h"
 
 int main()
@@ -73,23 +70,19 @@ int main()
     printHardDiskInfo(hardDisk);
 
     launchShell(&hardDisk);
+
+    /*** FUNCTIONS TO IMPLEMENT IN THE SHELL ***/
+    /*** WORKS WHEN CALLING THEM OUT OF THE SHELL ***/
 /*
     // File creation
     INODE* inodeFichier1 = createFile(&hardDisk,"file1",&sizeTabInode);
     INODE* inodeFichier2 = createFile(&hardDisk,"file2",&sizeTabInode);
-    INODE* inodeFichier3 = createFile(&hardDisk,"file3",&sizeTabInode);
-    INODE* inodeFichier4 = createFile(&hardDisk,"file4",&sizeTabInode);
-    INODE* inodeFichier5 = createFile(&hardDisk,"file5",&sizeTabInode);
-//    INODE* inodeFichier6 = createFile(&hardDisk,"file6",&sizeTabInode);
-//    INODE* inodeFichier7 = createFile(&hardDisk,"file7",&sizeTabInode);
-//    INODE* inodeFichier8 = createFile(&hardDisk,"file8",&sizeTabInode);
 
     // Read of the data of the file thanks to his inode
-    // readFile(&hardDisk,inodeFichier1,1024);
+    readFile(&hardDisk,inodeFichier1,1024);
 
     // Open a file, if the file does not exist it will be created
-   INODE* inodeFichier35 = openFile(&hardDisk,"file35",&sizeTabInode);
-//    INODE* inodeFichier398 = openFile(&hardDisk,"file398",&sizeTabInode);
+    INODE* inodeFichier398 = openFile(&hardDisk,"file398",&sizeTabInode);
 
 
 
@@ -97,23 +90,23 @@ int main()
     mkdir(&hardDisk,"Directory1");
 
     // Delete the directory
-//    rmdir(&hardDisk,"Directory1");
+    rmdir(&hardDisk,"Directory1");
 
+    // Write in a file
+    writeFile(&hardDisk,inodeFichier3,500, "Data");
 
-    writeFile(&hardDisk,inodeFichier3,500, "kolll");
     readFile(&hardDisk,inodeFichier3,10);
-    link(&hardDisk,"Directory1","file3");
     link(&hardDisk,"Directory1","file1");
     link(&hardDisk,"Directory1","file2");
-        link(&hardDisk,"Directory1","file4");
-            link(&hardDisk,"Directory1","file5");
-//
-//    // Unlink a file from a directory
-//    unlinkFile(&hardDisk,"Directory1","file3");
 
-//    link(&hardDisk,"Directory1","file2");
-//    link(&hardDisk,"Directory1","file35");
-//    link(&hardDisk,"Directory1","file35");
+    link(&hardDisk,"Directory1","file5");
+
+
+      // Unlink a file from a directory
+    unlinkFile(&hardDisk,"Directory1","file3");
+
+    link(&hardDisk,"Directory1","file2");
+
 
     printFileNumber();
     printFreeBlocks(hardDisk);
