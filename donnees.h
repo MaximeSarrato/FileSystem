@@ -40,7 +40,7 @@ typedef struct FICHIER
     INODE inode;
     char* fileName;
     int fileSize;
-    char* donnees[BLOC_SIZE];
+    char* donnees[1];
     bool inDirectory;
 
 } FICHIER;
@@ -72,8 +72,8 @@ typedef struct DIRECTORY
  {
      FICHIER fichier;
      DIRECTORY directory;
-     unsigned int numero;      // Numéro du bloc
-     int etat;
+     unsigned int numero;      // Block number
+     int etat;                 // If block is used or not
      char* donnees[BLOC_SIZE];
      char* typeBlock;
 
@@ -88,7 +88,7 @@ typedef struct DIRECTORY
 
  typedef struct BLOCK_BOOT
  {
-     bool bootPartition;
+     bool bootPartition; // If the partition permits to the system to boot
 
  }BLOCK_BOOT;
 
@@ -101,8 +101,8 @@ typedef struct DIRECTORY
 
  typedef struct SUPER_BLOCK
  {
-     int systemIdentity;
-     unsigned int dataBlocksLength;
+     int systemIdentity; // Letter of the partition
+     unsigned int dataBlocksLength; // BLOC_SIZE
      unsigned int freeDataBlocksLength;
      bool checkIntegrity;
 
