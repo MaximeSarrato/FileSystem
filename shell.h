@@ -2,7 +2,7 @@
 #include <fcntl.h>
 #include <dirent.h>
 #include <unistd.h>
-#include "hdd.h"
+#include "fichier.h"
 
 
 #define MAX 1024

@@ -1,5 +1,4 @@
-#include "hdd.h"
-#include "donnees.h"
+#include "directory.h"
 INODE* createFile(HARD_DISK* disk, char* file, int* sizeTabInode, int fileSize);
 void printFileNumber();
 void readFile(HARD_DISK* disk, INODE* inode, int nbBytes);

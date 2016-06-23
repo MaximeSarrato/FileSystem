@@ -4,7 +4,8 @@
  * Function of directory creation
  *********************************/
 
-void mkdir(HARD_DISK* disk, char* dirName) {
+void mkDir(HARD_DISK* disk, char* dirName) {
+    printf("\n        ---CREATEDIRECTORY\n");
     int i,j;
     int firstFreeBlock = 0;
 
@@ -46,7 +47,8 @@ void mkdir(HARD_DISK* disk, char* dirName) {
 /*************************************
 * Function of empty directory deletion
 **************************************/
-void rmdir(HARD_DISK* disk, char* dirName) {
+void rmDir(HARD_DISK* disk, char* dirName) {
+    printf("\n        ---DELETEDIRECTORY\n");
     bool emptyDirectory = false;
     bool existingDirectory = false;
     int i,j,k;
@@ -95,7 +97,7 @@ void rmdir(HARD_DISK* disk, char* dirName) {
 * existing file in a directory
 **************************************/
 void link(HARD_DISK* disk, char* dirName, char* fileName) {
-
+     printf("\n        ---LINKDIRECTORY\n");
     int i, j, k, directoryBlock, firstFreeSlot;
     FICHIER file;
     DIRECTORY directory;
@@ -164,7 +166,7 @@ void link(HARD_DISK* disk, char* dirName, char* fileName) {
 }
 
 void unlinkFile(HARD_DISK* disk, char* dirName, char* fileName) {
-
+     printf("\n        ---UNLINK FILE FROM DIRECTORY\n");
     int i,j,k,l, directoryBlock, fileBlockInDirectory, fileSize, numInode;
     int firstBlock, lastBlock;
     FICHIER file;

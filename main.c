@@ -69,17 +69,17 @@ int main()
 
     printHardDiskInfo(hardDisk);
 
-    launchShell(&hardDisk);
+   //  launchShell(&hardDisk);
 
     /*** FUNCTIONS TO IMPLEMENT IN THE SHELL ***/
     /*** WORKS WHEN CALLING THEM OUT OF THE SHELL ***/
-/*
-    // File creation
-    INODE* inodeFichier1 = createFile(&hardDisk,"file1",&sizeTabInode);
-    INODE* inodeFichier2 = createFile(&hardDisk,"file2",&sizeTabInode);
 
+    // File creation
+    INODE* inodeFichier1 = createFile(&hardDisk,"file1",&sizeTabInode,1);
+    INODE* inodeFichier2 = createFile(&hardDisk,"file2",&sizeTabInode,1);
+/*
     // Read of the data of the file thanks to his inode
-    readFile(&hardDisk,inodeFichier1,1024);
+    // readFile(&hardDisk,inodeFichier1,1024);
 
     // Open a file, if the file does not exist it will be created
     INODE* inodeFichier398 = openFile(&hardDisk,"file398",&sizeTabInode);
@@ -87,15 +87,16 @@ int main()
 
 
     // Creation of a directory
-    mkdir(&hardDisk,"Directory1");
+    mkDir(&hardDisk,"Directory1");
 
     // Delete the directory
-    rmdir(&hardDisk,"Directory1");
+  //  rmDir(&hardDisk,"Directory1");
+
 
     // Write in a file
-    writeFile(&hardDisk,inodeFichier3,500, "Data");
+     writeFile(&hardDisk,inodeFichier1,1,"Data");
 
-    readFile(&hardDisk,inodeFichier3,10);
+    // readFile(&hardDisk,inodeFichier1,1);
     link(&hardDisk,"Directory1","file1");
     link(&hardDisk,"Directory1","file2");
 
@@ -103,6 +104,7 @@ int main()
 
 
       // Unlink a file from a directory
+
     unlinkFile(&hardDisk,"Directory1","file3");
 
     link(&hardDisk,"Directory1","file2");
