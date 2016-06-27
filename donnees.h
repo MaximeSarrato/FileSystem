@@ -75,7 +75,7 @@ typedef struct DIRECTORY
      DIRECTORY directory;
      unsigned int numero;      // Numéro du bloc
      int etat;
-     char* donnees[BLOC_SIZE];
+     char* donnees[1];
      char* typeBlock;
 
  }BLOCK;

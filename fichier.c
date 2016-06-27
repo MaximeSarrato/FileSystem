@@ -45,10 +45,8 @@ INODE* createFile(PARTITION* diskPartition, char* fileName, int* sizeTabInode, i
         for(j=firstFreeBlock; j<firstFreeBlock+blocksNeeded; j++) { // Start loop with the first free block to the number of blocks needed
             diskPartition->tabBlocksData[j].fichier=file;
             diskPartition->tabBlocksData[j].etat=1;
-            for(k=0; k<BLOC_SIZE; k++) { // Fill the data block with data
-                diskPartition->tabBlocksData[j].donnees[k]="Date of the file";
-                // printf("Données contenues : %s\n",disk->partitions[i].tabBlocksData[j].donnees[k]);
-            }
+                diskPartition->tabBlocksData[j].donnees[0]="Data written during file creation";
+                printf("Data : %s\n",diskPartition->tabBlocksData[j].donnees[0]);
         }
                 // Inode association with the file and the blocks which contains file's data.
                 diskPartition->tabInodes[fileNumber].numero=fileNumber;
