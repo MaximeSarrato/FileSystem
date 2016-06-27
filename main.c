@@ -1,4 +1,6 @@
-#include "shell.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include "hdd.h"
 
 int main()
 {
@@ -7,14 +9,14 @@ int main()
     int i = 0;
     int* sizeTabInode = 1; // At beginning it have only one case
     // Init hard disk
-    printf("\n    Init hard drive : START");
+    printf("    Init hard drive : START\n");
 
     HARD_DISK hardDisk;
     hardDisk.taille = DISK_SIZE;
     hardDisk.nbPartition = NB_PARTITIONS;
     hardDisk.partitions = calloc(NB_PARTITIONS, sizeof(PARTITION));
 
-    printf("\n    Init hard drive : DONE\n");
+    printf("    Init hard drive : DONE\n");
 
 
     // Create partitions and add them to hard disk
@@ -69,50 +71,48 @@ int main()
 
     printHardDiskInfo(hardDisk);
 
-   //  launchShell(&hardDisk);
-
-    /*** FUNCTIONS TO IMPLEMENT IN THE SHELL ***/
-    /*** WORKS WHEN CALLING THEM OUT OF THE SHELL ***/
-
     // File creation
-    INODE* inodeFichier1 = createFile(&hardDisk,"file1",&sizeTabInode,1);
-    INODE* inodeFichier2 = createFile(&hardDisk,"file2",&sizeTabInode,1);
-/*
-    // Read of the data of the file thanks to his inode
-    // readFile(&hardDisk,inodeFichier1,1024);
+    INODE* inodeFichier1 = createFile(&hardDisk,"file1",&sizeTabInode);
+    getInode(&hardDisk.partitions[0],"file1");
+//    INODE* inodeFichier2 = createFile(&hardDisk,"file2",&sizeTabInode);
+//    INODE* inodeFichier3 = createFile(&hardDisk,"file3",&sizeTabInode);
+////    INODE* inodeFichier4 = createFile(&hardDisk,"file4",&sizeTabInode);
+////    INODE* inodeFichier5 = createFile(&hardDisk,"file5",&sizeTabInode);
+////    INODE* inodeFichier6 = createFile(&hardDisk,"file6",&sizeTabInode);
+////    INODE* inodeFichier7 = createFile(&hardDisk,"file7",&sizeTabInode);
+////    INODE* inodeFichier8 = createFile(&hardDisk,"file8",&sizeTabInode);
+//
+//    // Read of the data of the file thanks to his inode
+//    // readFile(&hardDisk,inodeFichier1,1024);
+//
+//    // Open a file, if the file does not exist it will be created
+//    INODE* inodeFichier35 = openFile(&hardDisk,"file35",&sizeTabInode);
+//    INODE* inodeFichier398 = openFile(&hardDisk,"file398",&sizeTabInode);
+//
+//
+//
+//    // Creation of a directory
+//    mkdir(&hardDisk,"Directory1");
+//
+//    // Delete the directory
+//    // rmdir(&hardDisk,"Directory1");
+//
+//  ;
+//
+//    writeFile(&hardDisk,inodeFichier3,500);
+//    readFile(&hardDisk,inodeFichier3,10);
+//    link(&hardDisk,"Directory1","file3");
+//
+//    // Unlink a file from a directory
+//    unlinkFile(&hardDisk,"Directory1","file3");
 
-    // Open a file, if the file does not exist it will be created
-    INODE* inodeFichier398 = openFile(&hardDisk,"file398",&sizeTabInode);
-
-
-
-    // Creation of a directory
-    mkDir(&hardDisk,"Directory1");
-
-    // Delete the directory
-  //  rmDir(&hardDisk,"Directory1");
-
-
-    // Write in a file
-     writeFile(&hardDisk,inodeFichier1,1,"Data");
-
-    // readFile(&hardDisk,inodeFichier1,1);
-    link(&hardDisk,"Directory1","file1");
-    link(&hardDisk,"Directory1","file2");
-
-    link(&hardDisk,"Directory1","file5");
-
-
-      // Unlink a file from a directory
-
-    unlinkFile(&hardDisk,"Directory1","file3");
-
-    link(&hardDisk,"Directory1","file2");
-
+//    link(&hardDisk,"Directory1","file2");
+//    link(&hardDisk,"Directory1","file35");
+//    link(&hardDisk,"Directory1","file35");
 
     printFileNumber();
     printFreeBlocks(hardDisk);
-*/
+
     // Deallocate all
     free(hardDisk.partitions);
     free(hardDisk.partitions->blockBoot);

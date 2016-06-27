@@ -4,8 +4,7 @@
  * Function of directory creation
  *********************************/
 
-void mkDir(HARD_DISK* disk, char* dirName) {
-    printf("\n        ---CREATEDIRECTORY\n");
+void mkdir(HARD_DISK* disk, char* dirName) {
     int i,j;
     int firstFreeBlock = 0;
 
@@ -47,8 +46,7 @@ void mkDir(HARD_DISK* disk, char* dirName) {
 /*************************************
 * Function of empty directory deletion
 **************************************/
-void rmDir(HARD_DISK* disk, char* dirName) {
-    printf("\n        ---DELETEDIRECTORY\n");
+void rmdir(HARD_DISK* disk, char* dirName) {
     bool emptyDirectory = false;
     bool existingDirectory = false;
     int i,j,k;
@@ -97,7 +95,7 @@ void rmDir(HARD_DISK* disk, char* dirName) {
 * existing file in a directory
 **************************************/
 void link(HARD_DISK* disk, char* dirName, char* fileName) {
-     printf("\n        ---LINKDIRECTORY\n");
+
     int i, j, k, directoryBlock, firstFreeSlot;
     FICHIER file;
     DIRECTORY directory;
@@ -166,7 +164,7 @@ void link(HARD_DISK* disk, char* dirName, char* fileName) {
 }
 
 void unlinkFile(HARD_DISK* disk, char* dirName, char* fileName) {
-     printf("\n        ---UNLINK FILE FROM DIRECTORY\n");
+
     int i,j,k,l, directoryBlock, fileBlockInDirectory, fileSize, numInode;
     int firstBlock, lastBlock;
     FICHIER file;
@@ -220,7 +218,7 @@ void unlinkFile(HARD_DISK* disk, char* dirName, char* fileName) {
                 for(j=directoryBlock; j<=directoryBlock; j++) {
                     disk->partitions[i].tabBlocksData[directoryBlock].directory.files[fileBlockInDirectory].inDirectory = false;
                     disk->partitions[i].tabBlocksData[directoryBlock].directory.files[fileBlockInDirectory].fileName = NULL;
-                    printf("\nRemoval of the file \"%s\" from the directory \"%s\ have been done.\n",fileName,dirName);
+                    printf("\nRemoval of the file \"%s\" from the directory \"%s\"\n",fileName,dirName);
                 }
             }
         }

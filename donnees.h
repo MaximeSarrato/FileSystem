@@ -5,6 +5,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "hdd.h"
 
 #define BLOC_SIZE 1024
 #define DISK_SIZE 16
@@ -40,7 +41,7 @@ typedef struct FICHIER
     INODE inode;
     char* fileName;
     int fileSize;
-    char* donnees[1];
+    char* donnees[BLOC_SIZE];
     bool inDirectory;
 
 } FICHIER;
@@ -72,8 +73,8 @@ typedef struct DIRECTORY
  {
      FICHIER fichier;
      DIRECTORY directory;
-     unsigned int numero;      // Block number
-     int etat;                 // If block is used or not
+     unsigned int numero;      // Numéro du bloc
+     int etat;
      char* donnees[BLOC_SIZE];
      char* typeBlock;
 
@@ -88,7 +89,7 @@ typedef struct DIRECTORY
 
  typedef struct BLOCK_BOOT
  {
-     bool bootPartition; // If the partition permits to the system to boot
+     bool bootPartition;
 
  }BLOCK_BOOT;
 
@@ -101,8 +102,8 @@ typedef struct DIRECTORY
 
  typedef struct SUPER_BLOCK
  {
-     int systemIdentity; // Letter of the partition
-     unsigned int dataBlocksLength; // BLOC_SIZE
+     int systemIdentity;
+     unsigned int dataBlocksLength;
      unsigned int freeDataBlocksLength;
      bool checkIntegrity;
 

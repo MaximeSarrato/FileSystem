@@ -5,8 +5,7 @@
  *
  ***************************************/
 
-INODE* createFile(HARD_DISK* disk, char* fileName, int* sizeTabInode, int fileSize){
-    printf("\n        ---CREATEFILE\n");
+INODE* createFile(HARD_DISK* disk, char* fileName, int* sizeTabInode){
 
     int i,j,k;
 
@@ -19,8 +18,7 @@ INODE* createFile(HARD_DISK* disk, char* fileName, int* sizeTabInode, int fileSi
     inode.numero=fileNumber;
 
     // File size (a block can support 1024 bytes)
-    // We could improve that by using the size of a given file in parameter of function
-    file.fileSize=fileSize; // The file takes two blocks
+    file.fileSize=2048; // The file takes two blocks
     file.inode=inode;
     file.inode.numero=fileNumber;
 
@@ -51,7 +49,7 @@ INODE* createFile(HARD_DISK* disk, char* fileName, int* sizeTabInode, int fileSi
                 disk->partitions[i].tabBlocksData[j].fichier=file;
                 disk->partitions[i].tabBlocksData[j].etat=1;
                 for(k=0; k<BLOC_SIZE; k++) { // Fill the data block with data
-                    disk->partitions[i].tabBlocksData[j].donnees[k]="";
+                    disk->partitions[i].tabBlocksData[j].donnees[k]="Date of the file";
                     // printf("Données contenues : %s\n",disk->partitions[i].tabBlocksData[j].donnees[k]);
                     }
                 }
@@ -60,7 +58,8 @@ INODE* createFile(HARD_DISK* disk, char* fileName, int* sizeTabInode, int fileSi
                 printf("Inode number of \"%s\" is : %d \n",fileName,disk->partitions[i].tabInodes[fileNumber].numero);
                 disk->partitions[i].tabInodes[fileNumber].premierBloc=firstFreeBlock;
                 disk->partitions[i].tabInodes[fileNumber].dernierBloc=firstFreeBlock+blocksNeeded-1;
-                printf("The data of the file \"%s\" have been stored in the block %d.\n",file.fileName,disk->partitions[i].tabInodes[fileNumber].premierBloc);
+                printf("The data of the file \"%s\" have been stored in the block %d and %d.\n",file.fileName,disk->partitions[i].tabInodes[fileNumber].premierBloc,
+                       disk->partitions[i].tabInodes[fileNumber].dernierBloc);
 
             }
     sizeTabInode++;
@@ -86,7 +85,7 @@ void printFileNumber() {
  *
  ***************************************/
 void readFile(HARD_DISK* disk, INODE* inode, int nbBytes) {
-    printf("\n        ---READFILE\n");
+
     int i,j,k,firstBlock,lastBlock;
     int numInode = inode->numero; // Recuperation of the inode number
 
@@ -97,9 +96,14 @@ void readFile(HARD_DISK* disk, INODE* inode, int nbBytes) {
 
     for(i=0; i<NB_PARTITIONS; i++) { // In the first partition
         for(j=firstBlock; j<=lastBlock; j++) {
-                printf("In the block %d : %s, case %d \n",j,disk->partitions[i].tabBlocksData[j].donnees[0], 0);
+            for(k=0; k<nbBytes; k++) {    // Read the number of bytes asked
+                printf("In the block %d : %s, case %d \n",j,disk->partitions[i].tabBlocksData[j].donnees[k], k);
+            }
+
         }
+
    }
+
 }
 
 /***************************************
@@ -110,7 +114,6 @@ void readFile(HARD_DISK* disk, INODE* inode, int nbBytes) {
  ***************************************/
 
 INODE* openFile (HARD_DISK* disk, char* fileName, int* sizeTabInode) {
-    printf("\n        ---OPENFILE\n");
     int i,j;
     bool fileExists = false;
     INODE* inodeFile;
@@ -132,30 +135,30 @@ INODE* openFile (HARD_DISK* disk, char* fileName, int* sizeTabInode) {
             readFile(disk,inodeFile,5); // Read of 5 bytes of the existing file
         }
         else if (fileExists == false) {
-            inodeFile = createFile(disk,fileName,sizeTabInode,0);
+            inodeFile = createFile(disk,fileName,sizeTabInode);
         }
     }
     return &inodeFile;
  }
 
 
-void writeFile(HARD_DISK* disk, INODE* inode, int nbBytes, char* data) {
-    printf("\n        ---WRITEFILE\n");
+void writeFile(HARD_DISK* disk, INODE* inode, int nbBytes) {
+
     int i,j,k,firstBlock,lastBlock;
     int numInode = inode->numero; // Recuperation of the inode number
 
     // Blocks which contain the file's data
     // Could be improved with the partition in parameter partitions[0]
-    firstBlock = disk->partitions[0].tabInodes[0].premierBloc;
-    lastBlock = disk->partitions[0].tabInodes[0].dernierBloc;
+    firstBlock = disk->partitions[0].tabInodes[numInode].premierBloc;
+    lastBlock = disk->partitions[0].tabInodes[numInode].dernierBloc;
     for(i=0; i<NB_PARTITIONS; i++) { // In the first partition
         // If bytes of the file is smaller than a BLOC_SIZE
         // Filling only one block
         if (nbBytes < BLOC_SIZE) {
             for(j=firstBlock; j<=firstBlock; j++) {
                 for(k=0; k<nbBytes; k++) {    // Read the number of bytes asked
-                    disk->partitions[0].tabBlocksData[j].donnees[k]=data;
-                    printf("In the block %d : %s, case %d \n",j,disk->partitions[i].tabBlocksData[j].donnees[k], k);
+                    disk->partitions[0].tabBlocksData[j].donnees[k]="";
+                 //   printf("In the block %d : %s, case %d \n",j,disk->partitions[i].tabBlocksData[j].donnees[k], k);
                 }
                 disk->partitions[0].tabBlocksData[j].fichier.fileSize = nbBytes;
             }
@@ -165,13 +168,13 @@ void writeFile(HARD_DISK* disk, INODE* inode, int nbBytes, char* data) {
         else if (nbBytes > BLOC_SIZE && nbBytes < 2048) {
                 for(j=firstBlock;j<firstBlock+1;j++) {
                     for(k=0; k<BLOC_SIZE; k++) {    // Read the number of bytes asked
-                        disk->partitions[0].tabBlocksData[j].donnees[k]=data;
+                        disk->partitions[0].tabBlocksData[j].donnees[k]="Data added with writeFile function";
                      //   printf("In the block %d : %s, case %d \n",j,disk->partitions[i].tabBlocksData[j].donnees[k], k);
                     }
                 }
                 for(j=lastBlock;j<lastBlock+1;j++) {
                     for(k=0; k<(nbBytes-BLOC_SIZE); k++) {
-                        disk->partitions[0].tabBlocksData[j].donnees[k]=data;
+                        disk->partitions[0].tabBlocksData[j].donnees[k]="Data added with writeFile function";
                      //   printf("In the block %d : %s, case %d \n",j,disk->partitions[i].tabBlocksData[j].donnees[k], k);
                     }
                 }
@@ -186,30 +189,22 @@ void writeFile(HARD_DISK* disk, INODE* inode, int nbBytes, char* data) {
     // of blocks which are containing the data of a given file
 }
 
-bool fileExists(HARD_DISK* disk, char * fileName){
-//    FICHIER fichier;
-//    FICHIER.fileName = filename;
-    int i,j;
-    for(i=0; i<NB_PARTITIONS; i++) {
-        for(j=0;j<DISK_SIZE;j++) {
-            if(disk->partitions[i].tabBlocksData[j].fichier.fileName == fileName) { // If the file exists
-                return true;
-            }
+INODE* getInode(PARTITION* diskPartition, char* fileName){
+    int i;
+    int blockFound = 0;
+    INODE* inode;
+    bool existingFile = false;
+
+    for(i=0;i<DISK_SIZE;i++) {
+        if(diskPartition->tabBlocksData[i].fichier.fileName==fileName) {
+            blockFound = i;
+            existingFile = true;
+            inode=&diskPartition->tabBlocksData[blockFound].fichier.inode;
+        }
+        else if (existingFile == false) {
+            printf("The file %s doesn't exists. \n",fileName);
         }
     }
-    return false;
-}
-
-INODE* getInode(HARD_DISK* disk, char* fileName){
-    int i,j;
-    INODE* inode;
-
-    for(i=0; i<NB_PARTITIONS; i++)
-        for(j=0;j<DISK_SIZE;j++)
-            if (fileExists(disk, fileName))
-                return &disk->partitions[i].tabBlocksData[j].fichier.inode;
 
     return inode;
 }
-
-
