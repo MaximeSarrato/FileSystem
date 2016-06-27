@@ -72,7 +72,7 @@ int main()
     printHardDiskInfo(hardDisk);
 
     // File creation
-    INODE* inodeFichier1 = createFile(&hardDisk.partitions[0],"file1",&sizeTabInode);
+    INODE* inodeFichier1 = createFile(&hardDisk.partitions[0],"file1",&sizeTabInode,4600);
     getInode(&hardDisk.partitions[0],"file1");
     fileExists(&hardDisk.partitions[0],"file1");
 //    INODE* inodeFichier2 = createFile(&hardDisk,"file2",&sizeTabInode);
