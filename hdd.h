@@ -1,5 +1,5 @@
-#ifndef __HDD.H__
-#define __HDD.H__
+#ifndef HDD.H
+#define HDD.H
 
 #include "donnees.h"
 

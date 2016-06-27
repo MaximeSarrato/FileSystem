@@ -5,7 +5,7 @@
  *
  ***************************************/
 
-INODE* createFile(HARD_DISK* disk, char* fileName, int* sizeTabInode){
+INODE* createFile(PARTITION* diskPartition, char* fileName, int* sizeTabInode){
 
     int i,j,k;
 
@@ -23,7 +23,7 @@ INODE* createFile(HARD_DISK* disk, char* fileName, int* sizeTabInode){
     file.inode.numero=fileNumber;
 
     // Upgrade the size of the Inode array at each time we create a new file
-    disk->partitions[0].tabInodes = realloc (disk->partitions[0].tabInodes, sizeTabInode+1 * sizeof(INODE));
+    diskPartition->tabInodes = realloc (diskPartition->tabInodes, sizeTabInode+1 * sizeof(INODE));
 
     // Calculation of blocks needed
     double blocksNeeded;
@@ -33,35 +33,30 @@ INODE* createFile(HARD_DISK* disk, char* fileName, int* sizeTabInode){
 
     // Find the first block unused
     int firstFreeBlock = 0;
-    for(i=0; i<NB_PARTITIONS; i++) { //
-        for(j=0; j<DISK_SIZE; j++) { //
-            // In case of the block is already allocated
-            if(disk->partitions[i].tabBlocksData[j].etat==1) {
-                printf("The block %d is already allocated. Looking for the next block.\n",j);
-                firstFreeBlock++;
-            }
+    for(j=0; j<DISK_SIZE; j++) { //
+        // In case of the block is already allocated
+        if(diskPartition->tabBlocksData[j].etat==1) {
+            printf("The block %d is already allocated. Looking for the next block.\n",j);
+            firstFreeBlock++;
         }
     }
 
     // Number of blocks allocated and their numbers in the array
-    for(i=0; i<NB_PARTITIONS; i++) { // In the first partition
-            for(j=firstFreeBlock; j<firstFreeBlock+blocksNeeded; j++) { // Start loop with the first free block to the number of blocks needed
-                disk->partitions[i].tabBlocksData[j].fichier=file;
-                disk->partitions[i].tabBlocksData[j].etat=1;
-                for(k=0; k<BLOC_SIZE; k++) { // Fill the data block with data
-                    disk->partitions[i].tabBlocksData[j].donnees[k]="Date of the file";
-                    // printf("Données contenues : %s\n",disk->partitions[i].tabBlocksData[j].donnees[k]);
-                    }
-                }
-                // Inode association with the file and the blocks which contains file's data.
-                disk->partitions[i].tabInodes[fileNumber].numero=fileNumber;
-                printf("Inode number of \"%s\" is : %d \n",fileName,disk->partitions[i].tabInodes[fileNumber].numero);
-                disk->partitions[i].tabInodes[fileNumber].premierBloc=firstFreeBlock;
-                disk->partitions[i].tabInodes[fileNumber].dernierBloc=firstFreeBlock+blocksNeeded-1;
-                printf("The data of the file \"%s\" have been stored in the block %d and %d.\n",file.fileName,disk->partitions[i].tabInodes[fileNumber].premierBloc,
-                       disk->partitions[i].tabInodes[fileNumber].dernierBloc);
-
+        for(j=firstFreeBlock; j<firstFreeBlock+blocksNeeded; j++) { // Start loop with the first free block to the number of blocks needed
+            diskPartition->tabBlocksData[j].fichier=file;
+            diskPartition->tabBlocksData[j].etat=1;
+            for(k=0; k<BLOC_SIZE; k++) { // Fill the data block with data
+                diskPartition->tabBlocksData[j].donnees[k]="Date of the file";
+                // printf("Données contenues : %s\n",disk->partitions[i].tabBlocksData[j].donnees[k]);
             }
+        }
+                // Inode association with the file and the blocks which contains file's data.
+                diskPartition->tabInodes[fileNumber].numero=fileNumber;
+                diskPartition->tabInodes[fileNumber].premierBloc=firstFreeBlock;
+                diskPartition->tabInodes[fileNumber].dernierBloc=firstFreeBlock+blocksNeeded-1;
+                printf("Inode number of \"%s\" is : %d \n",fileName,diskPartition->tabInodes[fileNumber].numero);
+                printf("The data of the file \"%s\" have been stored in the block %d and %d.\n"
+                       ,file.fileName,diskPartition->tabInodes[fileNumber].premierBloc,diskPartition->tabInodes[fileNumber].dernierBloc);
     sizeTabInode++;
     fileNumber++; // Incrementation of the number of files
 
@@ -207,4 +202,19 @@ INODE* getInode(PARTITION* diskPartition, char* fileName){
     }
 
     return inode;
+}
+
+bool fileExists (PARTITION* diskPartition, char* fileName) {
+    int i;
+    printf("\n  ------VERIFYING EXISTENCE OF THE FILE\n");
+    for(i=0;i<DISK_SIZE;i++) {
+        if(diskPartition->tabBlocksData[i].fichier.fileName == fileName) {
+            printf("The file %s exists and is in the block %d\n",fileName,i);
+            return true;
+        }
+        else {
+            printf("The file %s does not exists\n",fileName);
+            return false;
+        }
+    }
 }
