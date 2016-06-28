@@ -26,14 +26,15 @@
 }
 
 bool fileExists (PARTITION* diskPartition, char* fileName) {
-    int i;
+    int i, fileCount = 0;
     printf("\n  ------VERIFYING EXISTENCE OF THE FILE\n");
     for(i=0;i<DISK_SIZE;i++) {
         if(diskPartition->tabBlocksData[i].fichier.fileName == fileName) {
+            fileCount++;
             printf("The file %s exists and is in the block %d\n",fileName,i);
             return true;
         }
-        else {
+        else if (fileCount < 1) {
             printf("The file %s does not exists\n",fileName);
             return false;
         }
@@ -80,8 +81,8 @@ INODE* createFile(PARTITION* diskPartition, char* fileName, int* sizeTabInode, i
         for(j=firstFreeBlock; j<firstFreeBlock+blocksNeeded; j++) { // Start loop with the first free block to the number of blocks needed
             diskPartition->tabBlocksData[j].fichier=file;
             diskPartition->tabBlocksData[j].etat=1;
-                diskPartition->tabBlocksData[j].donnees[0]="Data written during file creation";
-//                printf("Data : %s\n",diskPartition->tabBlocksData[j].donnees[0]);
+            diskPartition->tabBlocksData[j].donnees[0]="Data written during file creation";
+//          printf("Data : %s\n",diskPartition->tabBlocksData[j].donnees[0]);
         }
                 // Inode association with the file and the blocks which contains file's data.
                 diskPartition->tabInodes[fileNumber].numero=fileNumber;
@@ -134,33 +135,22 @@ void readFile(PARTITION* diskPartition, char* fileName) {
  *
  ***************************************/
 
-//INODE* openFile (HARD_DISK* disk, char* fileName, int* sizeTabInode) {
-//    int i,j;
-//    bool fileExists = false;
-//    INODE* inodeFile;
-//
-//    for(i=0; i<NB_PARTITIONS; i++) {
-//        for(j=0;j<DISK_SIZE;j++) {
-//            if(disk->partitions[i].tabBlocksData[j].fichier.fileName == fileName) { // If the file exists
-//                fileExists = true;
-//                printf("The file %s already exists in the block %d of the %c partition.\n"
-//                       ,fileName,j,(char)BASE_PARTITION_IDENTITY_LETTER);
-//                // Storage of the inode number
-//                inodeFile->numero=disk->partitions[i].tabBlocksData[j].fichier.inode.numero;
-//                printf("Inode of the existing file : \"%s\" is %d\n",fileName,inodeFile->numero);
-//            }
-//
-//        }
-//        // The file exists then open it (read data)
-//        if(fileExists == true) {
-//            readFile(disk,inodeFile,5); // Read of 5 bytes of the existing file
-//        }
-//        else if (fileExists == false) {
-//            inodeFile = createFile(disk,fileName,sizeTabInode);
-//        }
-//    }
-//    return &inodeFile;
-// }
+INODE* openFile (PARTITION* diskPartition, char* fileName, int* sizeTabInode) {
+    printf("\n    ------OPENFILE\n");
+    INODE* inodeFile = NULL;
+
+    // If the file exists
+    if (fileExists(diskPartition,fileName)) {
+        // Storage of the inode number
+        inodeFile = getInode(diskPartition,fileName);
+        printf("Inode of the existing file : \"%s\" is %d\n",fileName,inodeFile->numero);
+        readFile(diskPartition,fileName); // Read of 5 bytes of the existing file
+    }
+    else {
+        inodeFile = createFile(diskPartition,fileName,sizeTabInode,800);
+    }
+    return inodeFile;
+ }
 //
 //
 //void writeFile(HARD_DISK* disk, INODE* inode, int nbBytes) {

@@ -75,8 +75,9 @@ int main()
     INODE* inodeFichier1 = createFile(&hardDisk.partitions[0],"file1",&sizeTabInode,8000);
     getInode(&hardDisk.partitions[0],"file1");
     fileExists(&hardDisk.partitions[0],"file1");
-
     readFile(&hardDisk.partitions[0],"file1");
+    openFile(&hardDisk.partitions[0],"file1");
+    openFile(&hardDisk.partitions[0],"file2");
 //    INODE* inodeFichier2 = createFile(&hardDisk,"file2",&sizeTabInode);
 //    INODE* inodeFichier3 = createFile(&hardDisk,"file3",&sizeTabInode);
 ////    INODE* inodeFichier4 = createFile(&hardDisk,"file4",&sizeTabInode);
